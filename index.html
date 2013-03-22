@@ -17,6 +17,11 @@
 		#adminTabs {
 			height: inherit;
 		}
+
+		form.addStudent {
+			width: 200px;
+			margin: 0 auto;
+		}
 	</style>
 	<script type="text/javascript">
 	var loginObj;
@@ -99,13 +104,18 @@
 			</div>
 			<div id="adminTabs">
 				<ul>
-					<li><a href="#addStudent">Add Student</a></li>
-					<li><a href="#addExam">Add Exam</a></li>
+					<li><a href="#addStudent">Add/Remove Student</a></li>
+					<li><a href="#addExam">Add/Remove Exam</a></li>
 					<li><a href="#showGrades">Course Grades</a></li>
 				</ul>
 					<div id="addStudent">
-						<form>
-							<input type="text" 	>
+						<form class="addStudent">
+							<input type="text" placeholder="Student ID" id="idNum" />
+							<input type="text" placeholder="Student Name" id="name" />
+							<input type="text" placeholder="Student Mail" id="email" />
+							<input type="text" placeholder="Student Password" id="passwd" />
+							<input type="submit" value="Add Student" />
+							<input type="Reset" value="Reset" />
 						</form>
 					</div>
 					<div id="addExam"></div>
