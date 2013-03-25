@@ -4,6 +4,7 @@
 	<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.10.2.custom.js"></script>
 	<script type="text/javascript" src="js/knockout-2.2.1.js"></script>
+	<script type="text/javascript" src="js/lscache.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.2.custom.css">
 	<link rel="stylesheet" type="text/css" href="css/lalecture.css">
 	<style type="text/css">
@@ -19,72 +20,60 @@
 		}
 
 		form.addStudent {
+			width: 250px;
+			float: left;
+			margin-left: 75px;
+		}
+
+
+		form.addStudent input[type="text"] {
+			width: inherit;
+		}
+
+		div.innerCell {
+			width: 800px;
+			margin: auto;
+			margin-top: 30px;
+			border: 1px solid #aaaaaa !important;
+		}
+
+		div.studSelect {
+			margin-right: 100px;
+			float: right;
 			width: 200px;
-			margin: 0 auto;
+		}
+
+		div.studSelect ul {
+			width: inherit;
+			height: 130px;
+		}
+
+		#editStud {
+			float: left;
+		}
+
+		#removeStud {
+			float: right;
+		}
+
+		div.leftCell, div.rightCell {
+			float: left;
+			width: 399px;
+			height: inherit;
+		}
+
+		div.leftCell {
+			border-right: 2px solid #aaaaaa
+		}
+
+		div.leftCell form, div.rightCell div {
+			margin-top: 165px;
+			height: 175px;
+			overflow: hidden;
 		}
 	</style>
-	<script type="text/javascript">
-	var loginObj;
-	var usersArr;
-	$(function () {
-		usersArr = [{ userName: 'Admin', password: 'L337H4X0R', userType: 'superuser'}, { userName: 'Usa', password: 'qwerty', userType: 'regularuser'}];
-		$('#adminTabs').tabs({active: 0}).hide(0);
-		$('#resetBtn,#submitBtn').button();
-		loginObj = { 
-			userName: ko.observable(),
-			password: ko.observable()
-		};
-		ko.applyBindings(loginObj);
-		if (!Array.prototype.filter)
-		{
-		  Array.prototype.filter = function(fun /*, thisp */)
-		  {
-		    "use strict";
-
-		    if (this === void 0 || this === null)
-		      throw new TypeError();
-
-		    var t = Object(this);
-		    var len = t.length >>> 0;
-		    if (typeof fun !== "function")
-		      throw new TypeError();
-
-		    var res = [];
-		    var thisp = arguments[1];
-		    for (var i = 0; i < len; i++)
-		    {
-		      if (i in t)
-		      {
-		        var val = t[i]; // in case fun mutates this
-		        if (fun.call(thisp, val, i, t))
-		          res.push(val);
-		      }
-		    }
-
-		    return res;
-		  };
-		}
-	});
-	var user;
-	function login () {
-		user = usersArr.filter(function(element) {
-			return (element.userName == loginObj.userName());
-		});
-		if (user.length == 0 || loginObj.password() != user[0].password)
-		{
-			$('#errorMsg').text('Bad user/password combination');
-		}
-		else {
-			if ($('#errorMsg').text() != "") 
-			{
-				$('#errorMsg').text("");
-			}
-			$('.login').hide(400, 'swing', function () {
-				$('#adminTabs').show(400);
-			});
-		}
-	}
-	</script>
+	<script type="text/javascript" src="js/objects.js"></script>
+	<script type="text/javascript" src="js/lalecture.js"></script>
 </head>
 <body>
 	<div class="wrapper">
@@ -95,8 +84,8 @@
 			<div class="login">
 				<form>
 					<h2>Log in to system</h2>
-					<input type="text" id="user" placeholder="Enter your username" data-bind="value: userName, valueUpdate: 'afterkeydown'" />
-					<input type="password" id="password" placeholder="Enter your password" data-bind="value: password, valueUpdate: 'afterkeydown'" />
+					<input type="text" id="user" placeholder="Enter your username" data-bind="value: loginObj().username, valueUpdate: 'afterkeydown'" />
+					<input type="password" id="password" placeholder="Enter your password" data-bind="value: loginObj().password, valueUpdate: 'afterkeydown'" />
 					<input type="button" value="Submit" id = "submitBtn" onclick="login()" />
 					<input type="reset" value="Reset" id="resetBtn" />
 					<div id="errorMsg"></div>
@@ -104,24 +93,39 @@
 			</div>
 			<div id="adminTabs">
 				<ul>
-					<li><a href="#addStudent">Add/Remove Student</a></li>
-					<li><a href="#addExam">Add/Remove Exam</a></li>
-					<li><a href="#showGrades">Course Grades</a></li>
+					<li><a href="#addStudent" onclick="resetLS()">Add/Edit/Remove Student</a></li>
+					<li><a href="#addExam" onclick="resetLS()">Add/Remove Exam</a></li>
+					<li><a href="#showGrades" onclick="resetLS()">Course Grades</a></li>
 				</ul>
 					<div id="addStudent">
-						<form class="addStudent">
-							<input type="text" placeholder="Student ID" id="idNum" />
-							<input type="text" placeholder="Student Name" id="name" />
-							<input type="text" placeholder="Student Mail" id="email" />
-							<input type="text" placeholder="Student Password" id="passwd" />
-							<input type="submit" value="Add Student" />
-							<input type="Reset" value="Reset" />
-						</form>
+						<div class="innerCell">
+							<div class="leftCell">
+								<form class="addStudent">
+									<input type="text" placeholder="Student ID" id="idNum"  />
+									<input type="text" placeholder="Student Name" id="name" />
+									<input type="text" placeholder="Student Mail" id="email" />
+									<input type="text" placeholder="Student Password" id="passwd" />
+									<input type="button" value="Add Student" id="addStud" onclick="addStudent()" />
+									<input type="Reset" value="Reset" id="resetStud" />
+								</form>
+							</div>
+							<div class="rightCell">
+								<div class="studSelect">
+									<ul id="studList" data-bind="foreach: Students">
+										<li data-bind="text: username"></li>
+									</ul>
+									<input type="button" value="Edit" id="editStud" onclick="editStudent()" />
+									<input type="button" value="Remove" id="removeStud" onclick="removeStudent()" />
+								</div>
+							</div>
+						</div>
 					</div>
 					<div id="addExam"></div>
 					<div id="showGrades"></div>
 				
 			</div>
+		</div>
+		<div class="footer">
 		</div>
 	</div>
 </body>

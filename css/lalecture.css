@@ -9,26 +9,56 @@
 div.wrapper {
 	width: 1000px;
 	margin: 0 auto;
-	background: #808080;
+	background: #C3C3C3;
 	opacity: 0.7;
 	border-radius: 10px;
-	height: 720px;
 }
+
+@media (max-device-height: 1024px) {
+	div.wrapper {
+		height: 720px;
+	}
+	div.content {
+		height: 600px;
+	}
+
+	div.innerCell {
+		height: 450px;
+	}
+}
+
+@media (min-device-height: 1024px) {
+	div.wrapper {
+		height: 920px;
+	}
+
+	div.content {
+		height: 800px;
+	}
+
+	div.innerCell {
+		height: 650px;
+	}
+}
+
 div.title {
 	font-family: goodtime;
+	font-style: italic;
 	font-size: 20px;
 	height: 44px;
 }
+
 div.title h1 {
 	margin: 0 auto;
 	text-align: center;
 	color: #FFFFFF;
 }
+
 div.content {
 	width: inherit;
-	height: 670px;
 	padding-top: 6px;
 }
+
 div.login {
 	width: 250px;
 	height: 163px;
@@ -38,6 +68,7 @@ div.login {
 div.login h2 {
 	text-align: center;
 }
+
 div.login input[type="text"],input[type="password"] {
 	width: 250px;
 	border-radius: 6px;
@@ -50,6 +81,23 @@ div.login input[type="password"] {
 	margin-top: 2px;
 }
 
-div.login input[type="reset"] {
+div.login input[type="reset"], form.addStudent input[type="reset"] {
 	float: right;
+}
+
+div.footer {
+	width: 998px;
+	height: 70px;
+	background: #DADADA;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border-left: 1px solid #aaaaaa;
+	border-right: 1px solid #aaaaaa;
+	border-bottom: 1px solid #aaaaaa;
+}
+
+div.content div {
+	border-bottom: none;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
 }
