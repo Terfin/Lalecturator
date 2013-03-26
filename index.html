@@ -8,69 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.2.custom.css">
 	<link rel="stylesheet" type="text/css" href="css/lalecture.css">
 	<style type="text/css">
-		#errorMsg {
-			width: inherit;
-			font-size: 16px;
-			text-align: center;
-			color: red;
-		}
 
-		#adminTabs {
-			height: inherit;
-		}
-
-		form.addStudent {
-			width: 250px;
-			float: left;
-			margin-left: 75px;
-		}
-
-
-		form.addStudent input[type="text"] {
-			width: inherit;
-		}
-
-		div.innerCell {
-			width: 800px;
-			margin: auto;
-			margin-top: 30px;
-			border: 1px solid #aaaaaa !important;
-		}
-
-		div.studSelect {
-			margin-right: 100px;
-			float: right;
-			width: 200px;
-		}
-
-		div.studSelect ul {
-			width: inherit;
-			height: 130px;
-		}
-
-		#editStud {
-			float: left;
-		}
-
-		#removeStud {
-			float: right;
-		}
-
-		div.leftCell, div.rightCell {
-			float: left;
-			width: 399px;
-			height: inherit;
-		}
-
-		div.leftCell {
-			border-right: 2px solid #aaaaaa
-		}
-
-		div.leftCell form, div.rightCell div {
-			margin-top: 165px;
-			height: 175px;
-			overflow: hidden;
-		}
 	</style>
 	<script type="text/javascript" src="js/objects.js"></script>
 	<script type="text/javascript" src="js/lalecture.js"></script>
@@ -101,18 +39,21 @@
 						<div class="innerCell">
 							<div class="leftCell">
 								<form class="addStudent">
-									<input type="text" placeholder="Student ID" id="idNum"  />
-									<input type="text" placeholder="Student Name" id="name" />
-									<input type="text" placeholder="Student Mail" id="email" />
-									<input type="text" placeholder="Student Password" id="passwd" />
+									<input type="text" placeholder="Student ID" id="idNum" data-bind="value: UserFormObj().uid" />
+									<input type="text" placeholder="Student Name" id="name" data-bind="value: UserFormObj().name" />
+									<input type="text" placeholder="Student Mail" id="email" data-bind="value: UserFormObj().email"/>
+									<input type="text" placeholder="Student Password" id="passwd" data-bind="value: UserFormObj().password" />
 									<input type="button" value="Add Student" id="addStud" onclick="addStudent()" />
 									<input type="Reset" value="Reset" id="resetStud" />
 								</form>
 							</div>
 							<div class="rightCell">
-								<div class="studSelect">
-									<ul id="studList" data-bind="foreach: Students">
-										<li data-bind="text: username"></li>
+								<div class="studSelForm">
+									<ul class="studSelect" data-bind="foreach: Students">
+											<li>
+												<input type="radio" name="students" class="studentItem" />
+												<span data-bind="text: username"></span>
+											</li>
 									</ul>
 									<input type="button" value="Edit" id="editStud" onclick="editStudent()" />
 									<input type="button" value="Remove" id="removeStud" onclick="removeStudent()" />

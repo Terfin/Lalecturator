@@ -101,3 +101,67 @@ div.content div {
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
 }
+
+#errorMsg {
+	width: inherit;
+	font-size: 16px;
+	text-align: center;
+	color: red;
+}
+
+#adminTabs {
+	height: inherit;
+}
+
+form.addStudent {
+	width: 250px;
+	float: left;
+	margin-left: 75px;
+	height: inherit;
+}
+
+
+form.addStudent input[type="text"] {
+	width: inherit;
+}
+
+div.innerCell {
+	width: 800px;
+	margin: auto;
+	margin-top: 30px;
+	border: 1px solid #aaaaaa !important;
+}
+
+div.studSelForm {
+	width: 200px;
+	margin: 0 auto;
+}
+
+ul.studSelect li {
+	list-style: none;
+}
+
+#editStud {
+	float: left;
+}
+
+#removeStud {
+	float: right;
+}
+
+div.leftCell, div.rightCell {
+	float: left;
+	width: 399px;
+	height: inherit;
+}
+
+div.leftCell {
+	border-right: 2px solid #aaaaaa
+}
+
+div.leftCell form {
+	margin-top: 165px;
+	height: 175px;
+	overflow: hidden;
+}
+

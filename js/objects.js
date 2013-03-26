@@ -4,10 +4,10 @@ var User = function(username, passwd)
 	this.password = passwd;
 }
 
-var Student = function(id, username, password, email) {
-	User.call(this, username, password);
-	this.id = id;
+var Student = function(uid, username, password, email) {
+	this.uid = uid;
 	this.email = email;
+	User.call(this, username, password);
 }
 
 var Lecturer = function(username, password) {
@@ -30,6 +30,12 @@ var viewModel = function() {
 	self.loggedUser = ko.observable();
 	self.loginObj = ko.observable({
 		username: ko.observable(),
+		password: ko.observable()
+	});
+	self.UserFormObj = ko.observable({
+		uid: ko.observable(),
+		name: ko.observable(),
+		email: ko.observable(),
 		password: ko.observable()
 	});
 }

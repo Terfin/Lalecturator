@@ -13,7 +13,7 @@ $(function () {
 		})[0]);
 	}
 	$('#userTabs').tabs({active: 0});
-	$('#adminTabs').tabs({active: 0});
+	$('#adminTabs').tabs({active: 0})
 	if (vm.loggedUser())
 	{
 		if (vm.loggedUser() instanceof Lecturer)
@@ -69,26 +69,39 @@ function resetLS () {
 }
 
 function addStudent () {
+	var valid = true;
 	$('form.addStudent input[type=text]').each(function () {
-		console.log(this.id)
 		if (this.value == '')
 		{
 			$(this).css("border", "2px solid #FF0000");
+			valid = false;
 		}
-		else if (this.id == "idNum" && isNaN(this.value)) {
+		else if (this.id == "idNum" && isNaN(this.value) || !notStudent(parseInt(this.value, 10))) {
 			$(this).css("border", "2px solid #FF0000");
+			valid = false;
 		}
 		else if (this.id == "email" && (this.value.match(/@/g) == null || this.value.match(/@/g).length != 1)) {
 			$(this).css("border", "2px solid #FF0000");
+			valid = false;
 		}
 		else {
 			$(this).css("border", "");
 		}
 	});
-	var stId = $('#idnum').val();
-	var stName = $('#name').val();
-	var stPasswd = $('#passwd').val();
-	var stMail = $('#email').val();
+	if (valid) {
+		var stId = vm.UserFormObj().uid();
+		var stName = vm.UserFormObj().name();
+		var stPasswd = vm.UserFormObj().password();
+		var stMail = vm.UserFormObj().email();
+		vm.Users.push(new Student(stId, stName, stPasswd, stMail));
+	}
+}
+
+function notStudent (studId) {
+	var student = vm.Students().filter(function (elem) {
+		return elem.uid == studId;
+	})
+	return (student.length == 0);
 }
 
 function CheckForArrayFilter () {
