@@ -49,12 +49,10 @@
 							</div>
 							<div class="rightCell">
 								<div class="studSelForm">
-									<ul class="studSelect" data-bind="foreach: Students">
-											<li>
-												<input type="radio" name="students" class="studentItem" />
-												<span data-bind="text: username"></span>
-											</li>
-									</ul>
+									<div id="studSelect" data-bind="foreach: Students">
+											<input type="radio" name="users" data-bind="attr: {'id': 'stud' + uid}">
+											<label data-bind="text: username, attr: {for: 'stud' + uid}"></label>
+									</div>
 									<input type="button" value="Edit" id="editStud" onclick="editStudent()" />
 									<input type="button" value="Remove" id="removeStud" onclick="removeStudent()" />
 								</div>

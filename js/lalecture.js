@@ -39,6 +39,7 @@ $(function () {
 	}
 	$('#resetBtn,#submitBtn,#addStud,#resetStud,#editStud,#removeStud').button();
 	ko.applyBindings(vm);
+	//$('#studSelect').buttonset();
 });
 var user;
 

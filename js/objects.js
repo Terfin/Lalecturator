@@ -27,6 +27,7 @@ var viewModel = function() {
 			return item instanceof Student;
 		});
 	});
+
 	self.loggedUser = ko.observable();
 	self.loginObj = ko.observable({
 		username: ko.observable(),
@@ -38,4 +39,10 @@ var viewModel = function() {
 		email: ko.observable(),
 		password: ko.observable()
 	});
+	ko.bindingHandlers.uibutton = {
+		init: function(element, valueAccessor) {
+			var $element = $(element), config = valueAccessor();
+			$element.button();
+		}
+	}
 }

@@ -137,8 +137,13 @@ div.studSelForm {
 	margin: 0 auto;
 }
 
-ul.studSelect li {
-	list-style: none;
+#studSelect {
+	width: inherit;
+	padding: 0;
+}
+
+div#studSelect label {
+	width: inherit;
 }
 
 #editStud {
