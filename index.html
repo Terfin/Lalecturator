@@ -4,6 +4,7 @@
 	<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.10.2.custom.js"></script>
 	<script type="text/javascript" src="js/knockout-2.2.1.js"></script>
+	<script type="text/javascript" src="js/knockout-jquery-ui-widget.js"></script>
 	<script type="text/javascript" src="js/lscache.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.2.custom.css">
 	<link rel="stylesheet" type="text/css" href="css/lalecture.css">
@@ -40,26 +41,30 @@
 							<div class="leftCell">
 								<form class="addStudent">
 									<input type="text" placeholder="Student ID" id="idNum" data-bind="value: UserFormObj().uid" />
-									<input type="text" placeholder="Student Name" id="name" data-bind="value: UserFormObj().name" />
+									<input type="text" placeholder="Student Name" id="name" data-bind="value: UserFormObj().username" />
 									<input type="text" placeholder="Student Mail" id="email" data-bind="value: UserFormObj().email"/>
 									<input type="text" placeholder="Student Password" id="passwd" data-bind="value: UserFormObj().password" />
-									<input type="button" value="Add Student" id="addStud" onclick="addStudent()" />
+									<input type="button" value="Add Student" id="addStud" data-bind="click: addStudent" />
+									<input type="button" value="Save Student" id="saveStud" data-bind="click: saveStudent" />
 									<input type="Reset" value="Reset" id="resetStud" />
 								</form>
 							</div>
 							<div class="rightCell">
 								<div class="studSelForm">
-									<div id="studSelect" data-bind="foreach: Students">
-											<input type="radio" name="users" data-bind="attr: {'id': 'stud' + uid}">
-											<label data-bind="text: username, attr: {for: 'stud' + uid}"></label>
+									<div id="studSelect" data-bind="foreach: studentsByPage">
+											<input type="radio" name="Students" data-bind="attr: {'id': 'stud' + uid}, value: uid, checked: $root.checkedRadio" />
+											<label data-bind="text: $data.username, attr: {for: 'stud' + uid}"></label>
 									</div>
-									<input type="button" value="Edit" id="editStud" onclick="editStudent()" />
-									<input type="button" value="Remove" id="removeStud" onclick="removeStudent()" />
+									<input type="button" value="<<" id="prevStuds" data-bind="visible: currentPage() > 1, click: prevPage" />
+									<input type="button" value="Edit" id="editStud" data-bind="click: editStudent" />
+									<input type="button" value="Remove" id="removeStud" data-bind="click: removeStudent" />
+									<input type="button" value=">>" id="nextStuds" data-bind="visible: Students().length >= 10 && currentPage() < numPages(), click: nextPage" />
 								</div>
 							</div>
 						</div>
 					</div>
 					<div id="addExam"></div>
+
 					<div id="showGrades"></div>
 				
 			</div>

@@ -133,7 +133,7 @@ div.innerCell {
 }
 
 div.studSelForm {
-	width: 200px;
+	width: inherit;
 	margin: 0 auto;
 }
 

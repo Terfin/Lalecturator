@@ -1,11 +1,15 @@
 var vm;
 
 $(function () {
+	$('#saveStud').button().hide();
+	$('#prevStuds').button();
+	$('#nextStuds').button();
 	var loggedUser;
-	CheckForArrayFilter();
+	CheckForArrayFilter(); //Adds Array.filter if browser doesn't support by default
 	vm = new viewModel();
 	vm.Users.push(new Lecturer('Admin', 'Foo'));
-	vm.Users.push(new Student(3, 'Moshe', 'Foo', 'omg@gmail.com'));
+	vm.loginObj(new User());
+	vm.UserFormObj(new Student())
 	loggedUser = lscache.get('loggedUser');
 	if (loggedUser != null) {
 		vm.loggedUser(vm.Users().filter(function (element) {
@@ -39,15 +43,23 @@ $(function () {
 	}
 	$('#resetBtn,#submitBtn,#addStud,#resetStud,#editStud,#removeStud').button();
 	ko.applyBindings(vm);
-	//$('#studSelect').buttonset();
+	$('#studSelect').buttonset();
+	vm.studentsByPage.subscribe(function () {
+		try {
+			$('#studSelect').buttonset('destroy').buttonset();
+		}
+		catch (err) {
+			$('#studSelect').buttonset();
+		}
+	});
 });
 var user;
 
 function login () {
 	user = vm.Users().filter(function(element) {
-		return (element.username == vm.loginObj().username());
+		return (element.username == vm.loginObj().username);
 	});
-	if (user.length == 0 || vm.loginObj().password() != user[0].password)
+	if (user.length == 0 || vm.loginObj().password != user[0].password)
 	{
 		$('#errorMsg').text('Bad user/password combination');
 	}
@@ -59,6 +71,7 @@ function login () {
 		if (user[0] instanceof Lecturer){
 			$('.login').hide(400, 'swing', function () {
 				$('#adminTabs').show(400);
+				vm.loggedUser(user[0]);
 				lscache.set('loggedUser', user[0], 15);
 			});
 		}
@@ -66,37 +79,14 @@ function login () {
 }
 
 function resetLS () {
-	lscache.set('loggedUser', loggedUser, 15);
-}
-
-function addStudent () {
-	var valid = true;
-	$('form.addStudent input[type=text]').each(function () {
-		if (this.value == '')
-		{
-			$(this).css("border", "2px solid #FF0000");
-			valid = false;
-		}
-		else if (this.id == "idNum" && isNaN(this.value) || !notStudent(parseInt(this.value, 10))) {
-			$(this).css("border", "2px solid #FF0000");
-			valid = false;
-		}
-		else if (this.id == "email" && (this.value.match(/@/g) == null || this.value.match(/@/g).length != 1)) {
-			$(this).css("border", "2px solid #FF0000");
-			valid = false;
-		}
-		else {
-			$(this).css("border", "");
-		}
-	});
-	if (valid) {
-		var stId = vm.UserFormObj().uid();
-		var stName = vm.UserFormObj().name();
-		var stPasswd = vm.UserFormObj().password();
-		var stMail = vm.UserFormObj().email();
-		vm.Users.push(new Student(stId, stName, stPasswd, stMail));
+	user = lscache.get('loggedUser');
+	if (user != null)
+	{
+		lscache.set('loggedUser', vm.loggedUser(), 15);
 	}
 }
+
+
 
 function notStudent (studId) {
 	var student = vm.Students().filter(function (elem) {
@@ -136,3 +126,4 @@ function CheckForArrayFilter () {
 	  };
 	}
 }
+
