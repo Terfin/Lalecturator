@@ -9,11 +9,11 @@ $(function () {
 	vm = new viewModel();
 	vm.Users.push(new Lecturer('Admin', 'Foo'));
 	vm.loginObj(new User());
-	vm.UserFormObj(new Student())
+	vm.svm.studentFormObj(new Student())
 	loggedUser = lscache.get('loggedUser');
 	if (loggedUser != null) {
 		vm.loggedUser(vm.Users().filter(function (element) {
-			return (element.username == loggedUser.username);
+			return (element.username() == loggedUser.username);
 		})[0]);
 	}
 	$('#userTabs').tabs({active: 0});
@@ -44,22 +44,14 @@ $(function () {
 	$('#resetBtn,#submitBtn,#addStud,#resetStud,#editStud,#removeStud').button();
 	ko.applyBindings(vm);
 	$('#studSelect').buttonset();
-	vm.studentsByPage.subscribe(function () {
-		try {
-			$('#studSelect').buttonset('destroy').buttonset();
-		}
-		catch (err) {
-			$('#studSelect').buttonset();
-		}
-	});
 });
 var user;
 
 function login () {
 	user = vm.Users().filter(function(element) {
-		return (element.username == vm.loginObj().username);
+		return (element.username() == vm.loginObj().username());
 	});
-	if (user.length == 0 || vm.loginObj().password != user[0].password)
+	if (user.length == 0 || vm.loginObj().password() != user[0].password())
 	{
 		$('#errorMsg').text('Bad user/password combination');
 	}
@@ -72,27 +64,14 @@ function login () {
 			$('.login').hide(400, 'swing', function () {
 				$('#adminTabs').show(400);
 				vm.loggedUser(user[0]);
-				lscache.set('loggedUser', user[0], 15);
+				var cacheobj = {
+					username: user[0].username(),
+					password: user[0].password()
+				};
+				lscache.set('loggedUser', cacheobj, 15);
 			});
 		}
 	}
-}
-
-function resetLS () {
-	user = lscache.get('loggedUser');
-	if (user != null)
-	{
-		lscache.set('loggedUser', vm.loggedUser(), 15);
-	}
-}
-
-
-
-function notStudent (studId) {
-	var student = vm.Students().filter(function (elem) {
-		return elem.uid == studId;
-	})
-	return (student.length == 0);
 }
 
 function CheckForArrayFilter () {

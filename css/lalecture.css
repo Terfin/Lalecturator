@@ -135,23 +135,38 @@ div.innerCell {
 div.studSelForm {
 	width: inherit;
 	margin: 0 auto;
+	margin-top: 100px;
 }
 
 #studSelect {
-	width: inherit;
+	width: 200px;
+	margin: 0 auto;
 	padding: 0;
 }
 
 div#studSelect label {
 	width: inherit;
+	height: 37px;
 }
 
 #editStud {
-	float: left;
+	margin-left: 100px;
 }
 
 #removeStud {
-	float: right;
+	margin-left: 200px;
+}
+
+#editStud, #removeStud, #prevStuds, #nextStuds {
+	position: absolute;
+}
+
+#prevStuds {
+	margin-left: 30px;
+}
+
+#nextStuds {
+	margin-left: 320px;
 }
 
 div.leftCell, div.rightCell {
@@ -170,3 +185,9 @@ div.leftCell form {
 	overflow: hidden;
 }
 
+.lexam {
+	width: 199px !important;
+}
+.rexam {
+	width: 599px !important;
+}

@@ -32,38 +32,45 @@
 			</div>
 			<div id="adminTabs">
 				<ul>
-					<li><a href="#addStudent" onclick="resetLS()">Add/Edit/Remove Student</a></li>
-					<li><a href="#addExam" onclick="resetLS()">Add/Remove Exam</a></li>
-					<li><a href="#showGrades" onclick="resetLS()">Course Grades</a></li>
+					<li><a href="#addStudent" data-bind="click: resetLS()">Add/Edit/Remove Student</a></li>
+					<li><a href="#addExam" data-bind="click: resetLS()">Add/Remove Exam</a></li>
+					<li><a href="#showGrades" data-bind="click: resetLS()">Course Grades</a></li>
 				</ul>
 					<div id="addStudent">
 						<div class="innerCell">
 							<div class="leftCell">
 								<form class="addStudent">
-									<input type="text" placeholder="Student ID" id="idNum" data-bind="value: UserFormObj().uid" />
-									<input type="text" placeholder="Student Name" id="name" data-bind="value: UserFormObj().username" />
-									<input type="text" placeholder="Student Mail" id="email" data-bind="value: UserFormObj().email"/>
-									<input type="text" placeholder="Student Password" id="passwd" data-bind="value: UserFormObj().password" />
-									<input type="button" value="Add Student" id="addStud" data-bind="click: addStudent" />
-									<input type="button" value="Save Student" id="saveStud" data-bind="click: saveStudent" />
+									<input type="text" placeholder="Student ID" id="idNum" data-bind="value: svm.studentFormObj().uid" />
+									<input type="text" placeholder="Student Name" id="name" data-bind="value: svm.studentFormObj().username" />
+									<input type="text" placeholder="Student Mail" id="email" data-bind="value: svm.studentFormObj().email"/>
+									<input type="text" placeholder="Student Password" id="passwd" data-bind="value: svm.studentFormObj().password" />
+									<input type="button" value="Add Student" id="addStud" data-bind="click: svm.addStudent" />
+									<input type="button" value="Save Student" id="saveStud" data-bind="click: svm.saveStudent" />
 									<input type="Reset" value="Reset" id="resetStud" />
 								</form>
 							</div>
 							<div class="rightCell">
 								<div class="studSelForm">
-									<div id="studSelect" data-bind="foreach: studentsByPage">
-											<input type="radio" name="Students" data-bind="attr: {'id': 'stud' + uid}, value: uid, checked: $root.checkedRadio" />
-											<label data-bind="text: $data.username, attr: {for: 'stud' + uid}"></label>
+									<div id="studSelect" data-bind="foreach: svm.studentsByPage">
+											<input type="radio" name="Students" data-bind="attr: {'id': 'stud' + uid()}, value: uid, checked: $root.svm.checkedRadio" />
+											<label data-bind="text: username, attr: {'for': 'stud' + uid()}"></label>
 									</div>
-									<input type="button" value="<<" id="prevStuds" data-bind="visible: currentPage() > 1, click: prevPage" />
-									<input type="button" value="Edit" id="editStud" data-bind="click: editStudent" />
-									<input type="button" value="Remove" id="removeStud" data-bind="click: removeStudent" />
-									<input type="button" value=">>" id="nextStuds" data-bind="visible: Students().length >= 10 && currentPage() < numPages(), click: nextPage" />
+									<input type="button" value="<<" id="prevStuds" data-bind="visible: svm.currentPage() > 1, click: svm.prevPage" />
+									<input type="button" value="Edit" id="editStud" data-bind="click: svm.editStudent" />
+									<input type="button" value="Remove" id="removeStud" data-bind="click: svm.removeStudent" />
+									<input type="button" value=">>" id="nextStuds" data-bind="visible: svm.Students().length >= 10 && svm.currentPage() < svm.numPages(), click: svm.nextPage" />
 								</div>
 							</div>
 						</div>
 					</div>
-					<div id="addExam"></div>
+					<div id="addExam">
+						<div class="innerCell">
+							<div class="leftCell lexam">
+							</div>
+							<div class="rightCell rexam">
+							</div>
+						</div>
+					</div>
 
 					<div id="showGrades"></div>
 				

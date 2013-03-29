@@ -1,18 +1,33 @@
 
 var User = function(/*args*/)
 {
-	this.username = arguments[0];
-	this.password = arguments[1];
+	var self = this;
+	self.username = ko.observable(arguments[0]);
+	self.password = ko.observable(arguments[1]);
 }
 
-var Student = function(uid, username, password, email) {
-	this.uid = arguments[0];
-	this.email = arguments[3];
+var Student = function(/*args*/) {
+	var self = this;
+	self.uid = ko.observable(arguments[0]);
+	self.email = ko.observable(arguments[3]);
 	User.call(this, arguments[1], arguments[2]);
 }
 
 var Lecturer = function(username, password) {
 	User.call(this, username, password);
+}
+
+var Exam = function() {
+	var self = this;
+	self.name = ko.observable();
+	self.id = ko.observable();
+	self.questions = ko.observableArray();
+}
+
+var Question = function() {
+	var self = this;
+	self.id = ko.observable();
+	self.text = ko.observable();
 }
 
 var viewModel = function() {
@@ -23,20 +38,34 @@ var viewModel = function() {
 			return item instanceof Lecturer;
 		});
 	});
-	self.Students = ko.computed(function () {
-		return ko.utils.arrayFilter(self.Users(), function(item) {
-			return item instanceof Student;
-		});
-	});
+	self.loggedUser = ko.observable();
+	self.loginObj = ko.observable();
+	self.svm = new studentViewModel(self);
+
+	self.resetLS = function () {
+		user = lscache.get('loggedUser');
+		if (user != null)
+		{
+			lscache.set('loggedUser', user, 15);
+		}
+	}
+}
+
+var studentViewModel = function(mainVM) {
+	var self = this;
 	self.currentPage = ko.observable(0);
 	self.numPages = ko.observable(0);
 	self.studentsByPage = ko.observableArray();
 	self.checkedRadio = ko.observable();
-	self.loggedUser = ko.observable();
-	self.loginObj = ko.observable();
-	self.UserFormObj = ko.observable();
-	self.addStudent = function addStudent () {
-		resetLS();
+	self.studentFormObj = ko.observable();
+	self.Students = ko.computed(function () {
+		return ko.utils.arrayFilter(mainVM.Users(), function(item) {
+			return item instanceof Student;
+		});
+	});
+
+	self.addStudent = function () {
+		mainVM.resetLS();
 		var valid = true;
 		$('form.addStudent input[type=text]').each(function () {
 			if (this.value == '')
@@ -44,7 +73,7 @@ var viewModel = function() {
 				$(this).css("border", "2px solid #FF0000");
 				valid = false;
 			}
-			else if (this.id == "idNum" && isNaN(this.value) || !notStudent(parseInt(this.value, 10))) {
+			else if (this.id == "idNum" && isNaN(this.value) || !self.notStudent(parseInt(this.value, 10))) {
 				$(this).css("border", "2px solid #FF0000");
 				valid = false;
 			}
@@ -57,9 +86,11 @@ var viewModel = function() {
 			}
 		});
 		if (valid) {
-			self.Users.push(vm.UserFormObj());
+			$('#studSelect').buttonset('destroy');
+			mainVM.Users.push(self.studentFormObj());
 			self.syncUserPage();
-			self.UserFormObj(new Student());
+			self.studentFormObj(new Student());
+			$('#studSelect').buttonset();
 		}
 	}
 
@@ -71,56 +102,96 @@ var viewModel = function() {
 				self.numPages(self.numPages() + 1);
 			}
 		}
+		console.log(self.Students());
 		self.studentsByPage(self.Students().slice((self.currentPage() - 1) * 10));
+
 	}
 
 	self.saveStudent = function () {
-		resetLS();
-		var idx = self.Users.indexOf(self.UserFormObj());
-		var user = self.Users.splice(idx, 1);
-		self.Users.push(self.UserFormObj());
-		self.UserFormObj(new Student());
-		$('#addStud').show();
-		$('#saveStud').hide();
+		self.renewButtonset(function () {
+			mainVM.resetLS();
+			var user = self.studentFormObj().original;
+			user.uid(self.studentFormObj().uid);
+			user.username(self.studentFormObj().username);
+			user.email(self.studentFormObj().email);
+			user.password(self.studentFormObj().password);
+			self.studentFormObj(new Student());
+			self.syncUserPage();
+			$('#addStud').show();
+			$('#saveStud').hide();
+		});
+	}
+
+	self.renewButtonset = function (f) {
+		$('#studSelect').buttonset('destroy');
+		f();
+		$('#studSelect').buttonset();
 	}
 
 	self.editStudent = function () {
-		if (self.checkedRadio() != undefined) {
-		var uid = parseInt(self.checkedRadio(), 10);
-		var student = this.Students().filter(function (element) {
-			return element.uid == uid;
+		self.renewButtonset(function () {
+			if (self.checkedRadio() != undefined) {
+			var uid = parseInt(self.checkedRadio(), 10);
+			var student = self.Students().filter(function (element) {
+				return element.uid() == uid;
+			});
+			self.studentFormObj({
+				original: student[0],
+				username: student[0].username(),
+				uid: student[0].uid(),
+				email: student[0].email(),
+				password: student[0].password()
+			});
+			$('#addStud').hide();
+			$('#saveStud').show();
+			}
 		});
-		this.UserFormObj(student[0]);
-		$('#addStud').hide();
-		$('#saveStud').show();
-		}
 	}
 
 	self.removeStudent = function () {
+		self.renewButtonset(function () {
 		if (self.checkedRadio() != undefined) {
 		var uid = parseInt(self.checkedRadio(), 10);
-		var student = self.Users().filter(function (element) {
+		var student = mainVM.Users().filter(function (element) {
 			return element.uid == uid;
 		});
-		self.Users().splice(self.Users().indexOf(student[0]), 1);
-		var lect = self.Users().splice(self.Users().indexOf(function () {
-			return self.Users().filter(function (element) {
+		mainVM.Users().splice(mainVM.Users().indexOf(student[0]), 1);
+		var lect = mainVM.Users().splice(mainVM.Users().indexOf(function () {
+			return mainVM.Users().filter(function (element) {
 				return element instanceof Lecturer;
 			})[0]}));
-		self.Users.push(lect[0]);
-		self.UserFormObj(new Student());
+		mainVM.Users.push(lect[0]);
+		self.studentFormObj(new Student());
+		self.syncUserPage();
 		$('#addStud').show();
 		$('#saveStud').hide();
 		}
+		});
 	}
 
 	self.nextPage = function () {
-		self.currentPage(self.currentPage + 1);
-		self.syncUserPage();
+		self.renewButtonset(function () {
+		self.currentPage(self.currentPage() + 1);
+		self.studentsByPage(self.Students().slice((self.currentPage() - 1) * 10));
+		});
 	}
 
 	self.prevPage = function () {
-		self.currentPage(self.currentPage - 1);
-		self.syncUserPage();
+		self.renewButtonset(function () {
+		self.currentPage(self.currentPage() - 1);
+		self.studentsByPage(self.Students().slice((self.currentPage() - 1) * 10));
+		});
 	}
+
+	self.notStudent = function (studId) {
+		var student = self.Students().filter(function (elem) {
+			return elem.uid() == studId;
+		});
+		return (student.length == 0);
+	}
+}
+
+var examViewModel = function () {
+	var self = this;
+	self.exams = ko.observableArray();
 }
