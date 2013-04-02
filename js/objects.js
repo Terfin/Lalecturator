@@ -1,3 +1,4 @@
+var examId = 0;
 
 var User = function(/*args*/)
 {
@@ -19,15 +20,29 @@ var Lecturer = function(username, password) {
 
 var Exam = function() {
 	var self = this;
-	self.name = ko.observable();
-	self.id = ko.observable();
-	self.questions = ko.observableArray();
+	self.name = ko.observable("Exam Title");
+	self.id = ko.observable(++examId);
+	self.questions = ko.observableArray([]);
+	self.addQuestion = function () {
+		self.questions.push(new Question(self.id, self.questions().length + 1));
+	}
 }
 
-var Question = function() {
+var Question = function(examId, qid) {
 	var self = this;
-	self.id = ko.observable();
+	self.id = ko.observable(qid);
+	self.text = ko.observable('Question Text');
+	self.examId = examId;
+	self.answers = ko.observableArray([]);
+	self.activeAnswer = ko.observable();
+}
+
+var Answer = function(questionId) {
+	var self = this;
 	self.text = ko.observable();
+	self.id = ko.observable();
+	self.questionId = questionId;
+	self.student = vm.loggedUser();
 }
 
 var viewModel = function() {
@@ -41,13 +56,30 @@ var viewModel = function() {
 	self.loggedUser = ko.observable();
 	self.loginObj = ko.observable();
 	self.svm = new studentViewModel(self);
-
+	self.evm = new examViewModel(self);
 	self.resetLS = function () {
 		user = lscache.get('loggedUser');
 		if (user != null)
 		{
 			lscache.set('loggedUser', user, 15);
 		}
+	}
+	
+	self.editElement = function (element) {
+		console.log(element);
+		console.log("FOO");
+		$(element).hide();
+		$(element).next().show();
+	}
+
+	self.editDone = function (element) {
+		$('#examSelector').buttonset('destroy');
+		if (event.type == 'blur' || event.keyCode == 13 || event.keyCode == 27) 
+		{
+			$(element).hide();
+			$(element).prev().show();
+		}
+		$('#examSelector').buttonset();
 	}
 }
 
@@ -108,7 +140,7 @@ var studentViewModel = function(mainVM) {
 	}
 
 	self.saveStudent = function () {
-		self.renewButtonset(function () {
+		renewButtonset('#studSelect', function () {
 			mainVM.resetLS();
 			var user = self.studentFormObj().original;
 			user.uid(self.studentFormObj().uid);
@@ -122,14 +154,10 @@ var studentViewModel = function(mainVM) {
 		});
 	}
 
-	self.renewButtonset = function (f) {
-		$('#studSelect').buttonset('destroy');
-		f();
-		$('#studSelect').buttonset();
-	}
+	
 
 	self.editStudent = function () {
-		self.renewButtonset(function () {
+		renewButtonset('#studSelect', function () {
 			if (self.checkedRadio() != undefined) {
 			var uid = parseInt(self.checkedRadio(), 10);
 			var student = self.Students().filter(function (element) {
@@ -149,7 +177,7 @@ var studentViewModel = function(mainVM) {
 	}
 
 	self.removeStudent = function () {
-		self.renewButtonset(function () {
+		renewButtonset('#studSelect', function () {
 		if (self.checkedRadio() != undefined) {
 		var uid = parseInt(self.checkedRadio(), 10);
 		var student = mainVM.Users().filter(function (element) {
@@ -170,14 +198,14 @@ var studentViewModel = function(mainVM) {
 	}
 
 	self.nextPage = function () {
-		self.renewButtonset(function () {
+		renewButtonset('#studSelect', function () {
 		self.currentPage(self.currentPage() + 1);
 		self.studentsByPage(self.Students().slice((self.currentPage() - 1) * 10));
 		});
 	}
 
 	self.prevPage = function () {
-		self.renewButtonset(function () {
+		renewButtonset('#studSelect', function () {
 		self.currentPage(self.currentPage() - 1);
 		self.studentsByPage(self.Students().slice((self.currentPage() - 1) * 10));
 		});
@@ -191,7 +219,32 @@ var studentViewModel = function(mainVM) {
 	}
 }
 
-var examViewModel = function () {
+var examViewModel = function (mainVM) {
 	var self = this;
 	self.exams = ko.observableArray();
+	self.selectedExam = ko.observable();
+	self.newExam = function () {
+		renewButtonset('#examSelector', function () {
+		var exam = new Exam();
+		self.selectedExam(exam);
+		self.exams.push(exam);
+		});
+	}
+	self.loadExam = function (exam) {
+		self.selectedExam(exam);
+	}
+	self.newQuestion = function () {
+		self.selectedExam().addQuestion();
+	}
+	self.loadAnswer = function (question) {
+		question.answers().filter(function (answer) {
+			answer.student == loggedUser
+		})
+	}
+}
+
+renewButtonset = function (id, f) {
+	$(id).buttonset('destroy');
+	f();
+	$(id).buttonset();
 }

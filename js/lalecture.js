@@ -41,9 +41,10 @@ $(function () {
 		//	$('#userTabs').tabs({active: 0}).hide(0);
 		$('#adminTabs').hide(0);
 	}
-	$('#resetBtn,#submitBtn,#addStud,#resetStud,#editStud,#removeStud').button();
+	$('#resetBtn,#submitBtn,#addStud,#resetStud,#editStud,#removeStud, #newQuestion').button();
 	ko.applyBindings(vm);
 	$('#studSelect').buttonset();
+	$('#examSelector').buttonset();
 });
 var user;
 

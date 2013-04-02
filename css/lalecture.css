@@ -41,7 +41,7 @@ div.wrapper {
 	}
 }
 
-div.title {
+div.wrapper > div.title {
 	font-family: goodtime;
 	font-style: italic;
 	font-size: 20px;
@@ -190,4 +190,39 @@ div.leftCell form {
 }
 .rexam {
 	width: 599px !important;
+	background: #FFFFFF;
+}
+
+#examSelector {
+	width: inherit;
+}
+
+#examSelector label, #examSelector input {
+	width: inherit !important;
+	border-radius: 0;
+	border: none !important;
+}
+
+div.qList ul {
+	list-style: none;
+}
+
+#examTitle {
+	font-size: 29px;
+	margin: 10px auto;
+}
+
+.title {
+	text-align: center;
+}
+
+.hidden {
+	display: none;
+}
+
+h2 + input.hidden {
+	width: 200px;
+	text-align: center;
+	font-size: 24px;
+	margin-top: 10px;
 }

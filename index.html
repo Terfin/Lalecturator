@@ -13,6 +13,9 @@
 	</style>
 	<script type="text/javascript" src="js/objects.js"></script>
 	<script type="text/javascript" src="js/lalecture.js"></script>
+	<script type="text/javascript">
+
+	</script>
 </head>
 <body>
 	<div class="wrapper">
@@ -66,8 +69,44 @@
 					<div id="addExam">
 						<div class="innerCell">
 							<div class="leftCell lexam">
+								<p>List of Exams</p>
+									<hr />
+								<div id="examSelector">
+									<!-- ko ifnot: evm.exams().length == 0 -->	
+									<!-- ko foreach: evm.exams -->
+									<input type="radio" name="examList" data-bind = "checked: $parent.loadExam, attr: { 'id' : 'exam' + id() }" />
+									<label data-bind="text: name, attr: {'for': 'exam' + id() }"></label>
+									<!-- /ko -->
+									<!-- /ko -->
+									<input type="button" id="newExam" data-bind="click: evm.newExam" value="Add New Exam" />
+								</div>
 							</div>
 							<div class="rightCell rexam">
+									<!-- ko ifnot: evm.selectedExam() == undefined -->
+									<div class="examForm">
+										<div class="title">
+											<h2 id="examTitle" data-bind="text: evm.selectedExam().name" onclick="vm.editElement(this)"></h2>
+											<input type="text" class="hidden" id="titleInp" data-bind="value: evm.selectedExam().name" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
+										</div>
+										<hr />
+										<div class="qList">
+											<ol>
+											<!-- ko foreach: evm.selectedExam().questions() -->
+												<li>
+													<p data-bind="event: { onLoad: $parent.loadAnswer}">
+														<span data-bind="text: text"></span>
+													</p>
+													<!-- ko if: vm.loggedUser() instanceof Student -->
+													<textarea data-bind="value: activeAnswer().text"></textarea>
+													<!-- /ko -->
+												</li>
+											<!-- /ko -->
+											</ol>
+											
+													<input type="button" id="newQuestion" data-bind="click: evm.newQuestion" value="Add New Question"/>
+										</div>
+									</div>
+									<!-- /ko -->
 							</div>
 						</div>
 					</div>
