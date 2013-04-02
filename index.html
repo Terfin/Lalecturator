@@ -94,7 +94,8 @@
 											<!-- ko foreach: evm.selectedExam().questions() -->
 												<li>
 													<p data-bind="event: { onLoad: $parent.loadAnswer}">
-														<span data-bind="text: text"></span>
+														<span data-bind="text: text" onclick="vm.editElement(this)"></span>
+														<input type="text" data-bind="value: text, attr: {id: 'ques' + id}" class="hidden" onkeyup="vm.editDone(this)" onblur = "vm.editDone(this)" />
 													</p>
 													<!-- ko if: vm.loggedUser() instanceof Student -->
 													<textarea data-bind="value: activeAnswer().text"></textarea>
