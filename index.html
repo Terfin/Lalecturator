@@ -74,7 +74,7 @@
 								<div id="examSelector">
 									<!-- ko ifnot: evm.exams().length == 0 -->	
 									<!-- ko foreach: evm.exams -->
-									<input type="radio" name="examList" data-bind = "checked: $parent.loadExam, attr: { 'id' : 'exam' + id() }" />
+									<input type="radio" name="examList" data-bind= "attr: { id : 'exam' + id() }, value: id, checked: $root.evm.newExamSelection" />
 									<label data-bind="text: name, attr: {'for': 'exam' + id() }"></label>
 									<!-- /ko -->
 									<!-- /ko -->

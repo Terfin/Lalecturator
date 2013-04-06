@@ -223,6 +223,7 @@ var examViewModel = function (mainVM) {
 	var self = this;
 	self.exams = ko.observableArray();
 	self.selectedExam = ko.observable();
+	self.newExamSelection = ko.observable();
 	self.newExam = function () {
 		renewButtonset('#examSelector', function () {
 		var exam = new Exam();
@@ -230,7 +231,8 @@ var examViewModel = function (mainVM) {
 		self.exams.push(exam);
 		});
 	}
-	self.loadExam = function (exam) {
+	self.loadExam = function (examId) {
+		console.log(examId);
 		self.selectedExam(exam);
 	}
 	self.newQuestion = function () {
