@@ -7,9 +7,13 @@ $(function () {
 	var loggedUser;
 	CheckForArrayFilter(); //Adds Array.filter if browser doesn't support by default
 	vm = new viewModel();
+	var rawStudents = lscache.get('students');
+	for (studIdx in rawStudents) {
+		vm.Users.push(ko.mapping.fromJS(rawStudents[studIdx], {}, new Student))
+	}
 	vm.Users.push(new Lecturer('Admin', 'Foo'));
 	vm.loginObj(new User());
-	vm.svm.studentFormObj(new Student())
+	vm.svm.studentFormObj(new Student());
 	loggedUser = lscache.get('loggedUser');
 	if (loggedUser != null) {
 		vm.loggedUser(vm.Users().filter(function (element) {
@@ -65,11 +69,7 @@ function login () {
 			$('.login').hide(400, 'swing', function () {
 				$('#adminTabs').show(400);
 				vm.loggedUser(user[0]);
-				var cacheobj = {
-					username: user[0].username(),
-					password: user[0].password()
-				};
-				lscache.set('loggedUser', cacheobj, 15);
+				lscache.set('loggedUser', ko.mapping.toJS(vm.loggedUser), 15);
 			});
 		}
 	}

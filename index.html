@@ -6,16 +6,29 @@
 	<script type="text/javascript" src="js/knockout-2.2.1.js"></script>
 	<script type="text/javascript" src="js/knockout-jquery-ui-widget.js"></script>
 	<script type="text/javascript" src="js/lscache.js"></script>
+	<script type="text/javascript" src="js/knockout.mapping.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.2.custom.css">
 	<link rel="stylesheet" type="text/css" href="css/lalecture.css">
 	<style type="text/css">
 
 	</style>
-	<script type="text/javascript" src="js/objects.js"></script>
-	<script type="text/javascript" src="js/lalecture.js"></script>
-	<script type="text/javascript">
-
+<script type="text/html" id="examTpl" \>
+		<ol data-bind="foreach: questions()">
+			<li>
+				<p data-bind="event: { onLoad: $parent.loadAnswer}">
+					<span data-bind="text: text" onclick="vm.editElement(this)"></span>
+					<input type="text" data-bind="value: text, attr: {id: 'ques' + id}" class="hidden" onkeyup="vm.editDone(this)" onblur = "vm.editDone(this)" />
+				</p>
+				<!-- ko if: vm.loggedUser() instanceof Student -->
+				<textarea data-bind="value: activeAnswer().text"></textarea>
+				<!-- /ko -->
+			</li>
+		</ol>
 	</script>
+	<script type="text/javascript" src="js/objects.js"></script>
+		
+	<script type="text/javascript" src="js/lalecture.js"></script>
+
 </head>
 <body>
 	<div class="wrapper">
@@ -54,6 +67,7 @@
 							</div>
 							<div class="rightCell">
 								<div class="studSelForm">
+									<!-- ko if: svm.Students().length > 0 -->
 									<div id="studSelect" data-bind="foreach: svm.studentsByPage">
 											<input type="radio" name="Students" data-bind="attr: {'id': 'stud' + uid()}, value: uid, checked: $root.svm.checkedRadio" />
 											<label data-bind="text: username, attr: {'for': 'stud' + uid()}"></label>
@@ -62,6 +76,7 @@
 									<input type="button" value="Edit" id="editStud" data-bind="click: svm.editStudent" />
 									<input type="button" value="Remove" id="removeStud" data-bind="click: svm.removeStudent" />
 									<input type="button" value=">>" id="nextStuds" data-bind="visible: svm.Students().length >= 10 && svm.currentPage() < svm.numPages(), click: svm.nextPage" />
+									<!-- /ko -->
 								</div>
 							</div>
 						</div>
@@ -74,8 +89,8 @@
 								<div id="examSelector">
 									<!-- ko ifnot: evm.exams().length == 0 -->	
 									<!-- ko foreach: evm.exams -->
-									<input type="radio" name="examList" data-bind= "attr: { id : 'exam' + id() }, value: id, checked: $root.evm.newExamSelection" />
-									<label data-bind="text: name, attr: {'for': 'exam' + id() }"></label>
+									<input type="radio" name="examList" data-bind= "attr: { id: 'exam' + id()}, value: id" onclick="vm.evm.loadExam(this)" />
+									<label data-bind="attr: {'for': 'exam' + id() }, jqspan: $data"></label>
 									<!-- /ko -->
 									<!-- /ko -->
 									<input type="button" id="newExam" data-bind="click: evm.newExam" value="Add New Exam" />
@@ -89,21 +104,7 @@
 											<input type="text" class="hidden" id="titleInp" data-bind="value: evm.selectedExam().name" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
 										</div>
 										<hr />
-										<div class="qList">
-											<ol>
-											<!-- ko foreach: evm.selectedExam().questions() -->
-												<li>
-													<p data-bind="event: { onLoad: $parent.loadAnswer}">
-														<span data-bind="text: text" onclick="vm.editElement(this)"></span>
-														<input type="text" data-bind="value: text, attr: {id: 'ques' + id}" class="hidden" onkeyup="vm.editDone(this)" onblur = "vm.editDone(this)" />
-													</p>
-													<!-- ko if: vm.loggedUser() instanceof Student -->
-													<textarea data-bind="value: activeAnswer().text"></textarea>
-													<!-- /ko -->
-												</li>
-											<!-- /ko -->
-											</ol>
-											
+										<div class="qList" data-bind="template: { name: 'examTpl', data: evm.selectedExam() }">
 													<input type="button" id="newQuestion" data-bind="click: evm.newQuestion" value="Add New Question"/>
 										</div>
 									</div>
@@ -112,8 +113,17 @@
 						</div>
 					</div>
 
-					<div id="showGrades"></div>
+					<div id="showGrades">
+						<div class="innerCell">
+							<div class="leftCell lexam">
+							</div>
+							<div class="rightCell rexam">
+							</div>
+						</div>
+					</div>
 				
+			</div>
+			<div id="studentTabs">
 			</div>
 		</div>
 		<div class="footer">

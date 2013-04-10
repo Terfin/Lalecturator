@@ -26,6 +26,13 @@ var Exam = function() {
 	self.addQuestion = function () {
 		self.questions.push(new Question(self.id, self.questions().length + 1));
 	}
+	self.selectExam = function (element) {
+		console.log(element);
+		if (vm.evm.selectedExam() != element)
+		{
+			vm.evm.selectedExam(element);
+		}
+	}
 }
 
 var Question = function(examId, qid) {
@@ -66,8 +73,6 @@ var viewModel = function() {
 	}
 	
 	self.editElement = function (element) {
-		console.log(element);
-		console.log("FOO");
 		$(element).hide();
 		$(element).next().show();
 	}
@@ -95,7 +100,9 @@ var studentViewModel = function(mainVM) {
 			return item instanceof Student;
 		});
 	});
-
+	self.Students.subscribe(function () {
+		self.syncUserPage();
+	});
 	self.addStudent = function () {
 		mainVM.resetLS();
 		var valid = true;
@@ -123,6 +130,7 @@ var studentViewModel = function(mainVM) {
 			self.syncUserPage();
 			self.studentFormObj(new Student());
 			$('#studSelect').buttonset();
+			lscache.set('students', ko.mapping.toJS(self.Students));
 		}
 	}
 
@@ -134,7 +142,6 @@ var studentViewModel = function(mainVM) {
 				self.numPages(self.numPages() + 1);
 			}
 		}
-		console.log(self.Students());
 		self.studentsByPage(self.Students().slice((self.currentPage() - 1) * 10));
 
 	}
@@ -152,6 +159,7 @@ var studentViewModel = function(mainVM) {
 			$('#addStud').show();
 			$('#saveStud').hide();
 		});
+		lscache.set('students', self.Students());
 	}
 
 	
@@ -195,6 +203,7 @@ var studentViewModel = function(mainVM) {
 		$('#saveStud').hide();
 		}
 		});
+		lscache.set('students', self.Students());
 	}
 
 	self.nextPage = function () {
@@ -220,33 +229,88 @@ var studentViewModel = function(mainVM) {
 }
 
 var examViewModel = function (mainVM) {
+	console.log(1);
 	var self = this;
 	self.exams = ko.observableArray();
+	var cacheExams = lscache.get('exams');
+	for (exIdx in cacheExams)
+	{
+		self.exams.push(ko.mapping.fromJS(cacheExams[exIdx], {}, new Exam));
+	}
 	self.selectedExam = ko.observable();
 	self.newExamSelection = ko.observable();
+	if (self.exams().length > 0)
+	{
+		console.log('omg');
+		self.newExamSelection(1);
+		self.selectedExam(self.exams[0]);
+
+	}
+
+	
 	self.newExam = function () {
+		console.log(2);
 		renewButtonset('#examSelector', function () {
 		var exam = new Exam();
 		self.selectedExam(exam);
 		self.exams.push(exam);
 		});
+		lscache.set('exams', ko.mapping.toJS(self.exams()));
 	}
-	self.loadExam = function (examId) {
-		console.log(examId);
-		self.selectedExam(exam);
+	self.loadExam = function (element) {
+		var exId = parseInt($(element).val(), 10);
+		var exam = self.exams().filter(function (exam) {
+			return (exam.id() == exId);
+		});
+		self.selectedExam(exam[0]);
 	}
 	self.newQuestion = function () {
+		console.log(4);
 		self.selectedExam().addQuestion();
+		lscache.set('exams', self.exams());
 	}
 	self.loadAnswer = function (question) {
+		console.log(5);
 		question.answers().filter(function (answer) {
 			answer.student == loggedUser
 		})
 	}
+	ko.bindingHandlers.jqspan = {
+		init: function (element, valueAccessor) {
+			console.log(6);
+			var ops = valueAccessor();
+			renewButtonset($(element).parent().attr('id'), function() {$(element).text(ops.name())});
+		},
+		update: function (element, valueAccessor) {
+			var ops = valueAccessor();
+			console.log(element);
+			$(element).children().text(ops.name());
+			self.selectedExam(ops);
+		}
+	}
+	ko.bindingHandlers.jqradio = {
+		init: function (element, valueAccessor) {
+			console.log(8);
+			var ops = valueAccessor();
+			$(element).attr('id', 'exam' + ops.id());
+		},
+		update: function (element, valueAccessor) {
+			console.log(9);
+			if(self.selectedExam() != undefined) {
+				$('#exam' + self.selectedExam().id()).prop('checked', self.newExamSelection());
+			}
+		}
+	}
 }
 
 renewButtonset = function (id, f) {
-	$(id).buttonset('destroy');
-	f();
-	$(id).buttonset();
+	console.log(10);
+	try {
+		f();
+		$(id).buttonset('refresh');
+	}
+	catch (err) {
+		f();
+		$(id).buttonset();
+	}
 }
