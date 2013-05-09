@@ -1,4 +1,6 @@
 var examId = 0;
+var ev;
+var elem;
 
 var User = function(/*args*/)
 {
@@ -125,11 +127,9 @@ var studentViewModel = function(mainVM) {
 			}
 		});
 		if (valid) {
-			$('#studSelect').buttonset('destroy');
 			mainVM.Users.push(self.studentFormObj());
 			self.syncUserPage();
 			self.studentFormObj(new Student());
-			$('#studSelect').buttonset();
 			lscache.set('students', ko.mapping.toJS(self.Students));
 		}
 	}
@@ -147,45 +147,40 @@ var studentViewModel = function(mainVM) {
 	}
 
 	self.saveStudent = function () {
-		renewButtonset('#studSelect', function () {
-			mainVM.resetLS();
-			var user = self.studentFormObj().original;
-			user.uid(self.studentFormObj().uid);
-			user.username(self.studentFormObj().username);
-			user.email(self.studentFormObj().email);
-			user.password(self.studentFormObj().password);
-			self.studentFormObj(new Student());
-			self.syncUserPage();
-			$('#addStud').show();
-			$('#saveStud').hide();
-		});
+		mainVM.resetLS();
+		var user = self.studentFormObj().original;
+		user.uid(self.studentFormObj().uid);
+		user.username(self.studentFormObj().username);
+		user.email(self.studentFormObj().email);
+		user.password(self.studentFormObj().password);
+		self.studentFormObj(new Student());
+		self.syncUserPage();
+		$('#addStud').show();
+		$('#saveStud').hide();
 		lscache.set('students', self.Students());
 	}
 
 	
 
 	self.editStudent = function () {
-		renewButtonset('#studSelect', function () {
-			if (self.selectedStudent() != undefined) {
-			var uid = parseInt(self.selectedStudent(), 10);
-			var student = self.Students().filter(function (element) {
-				return element.uid() == uid;
-			});
-			self.studentFormObj({
-				original: student[0],
-				username: student[0].username(),
-				uid: student[0].uid(),
-				email: student[0].email(),
-				password: student[0].password()
-			});
-			$('#addStud').hide();
-			$('#saveStud').show();
-			}
+		if (self.selectedStudent() != undefined) {
+		var uid = parseInt(self.selectedStudent(), 10);
+		var student = self.Students().filter(function (element) {
+			return element.uid() == uid;
 		});
+		self.studentFormObj({
+			original: student[0],
+			username: student[0].username(),
+			uid: student[0].uid(),
+			email: student[0].email(),
+			password: student[0].password()
+		});
+		$('#addStud').hide();
+		$('#saveStud').show();
+		}
 	}
 
 	self.removeStudent = function () {
-		renewButtonset('#studSelect', function () {
 		if (self.selectedStudent() != undefined) {
 		var uid = parseInt(self.selectedStudent(), 10);
 		var student = mainVM.Users().filter(function (element) {
@@ -202,7 +197,6 @@ var studentViewModel = function(mainVM) {
 		$('#addStud').show();
 		$('#saveStud').hide();
 		}
-		});
 		lscache.set('students', self.Students());
 	}
 
@@ -221,6 +215,14 @@ var studentViewModel = function(mainVM) {
 			return elem.uid() == studId;
 		});
 		return (student.length == 0);
+	}
+	self.selectStudent = function(student, evt) {
+		if (self.selectedStudent() != evt.currentTarget)
+		{
+			$(self.selectedStudent()).removeClass("listClick");
+			$(evt.currentTarget).addClass("listClick");
+			self.selectedStudent(evt.currentTarget);
+		}
 	}
 }
 

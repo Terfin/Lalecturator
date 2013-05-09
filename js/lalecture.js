@@ -65,8 +65,8 @@ function login () {
 			$('#errorMsg').text("");
 		}
 		if (user[0] instanceof Lecturer){
-			$('.login').hide(400, 'swing', function () {
-				$('#adminTabs').show(400);
+			$('.login').hide(800, 'swing', function () {
+				$('#adminTabs').show(800);
 				vm.loggedUser(user[0]);
 				lscache.set('loggedUser', ko.mapping.toJS(vm.loggedUser), 15);
 			});

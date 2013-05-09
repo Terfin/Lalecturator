@@ -237,7 +237,6 @@ h2 + input.hidden {
 	height: 30px;
 	text-align: center;
 	vertical-align: middle;
-	color: rgb(0, 120, 240);
 }
 
 #studSelect > ul > li:hover
@@ -263,8 +262,7 @@ h2 + input.hidden {
 
 #studSelect > ul > li.selected
 {
-	background-color: rgb(62, 62, 62);
-	color: rgb(255,255,255);
+	
 }
 
 #studSelect > ul > li > a
@@ -275,4 +273,12 @@ h2 + input.hidden {
 a
 {
 	text-decoration: none;
+	cursor: hand;
+	color: #ffffff;
+}
+
+.listClick
+{
+	background-color: rgb(62, 62, 62) !important;
+	color: #FFFFFF !important;
 }

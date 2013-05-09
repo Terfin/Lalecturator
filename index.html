@@ -70,8 +70,8 @@
 									<!-- ko if: svm.Students().length > 0 -->
 									<div id="studSelect">
 										<ul data-bind="foreach: svm.studentsByPage">
-											<li data-bind="attr: {'id': 'stud' + uid()}">
-												<a data-bind="text: username, attr: { 'href': 'javascript:vm.svm.selectedStudent(uid())'}"></a>
+											<li data-bind="attr: {'id': 'stud' + uid()}, click: $root.svm.selectStudent">
+												<a data-bind="text: username"></a>
 											</li>
 										</ul>
 									</div>
