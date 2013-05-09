@@ -135,18 +135,13 @@ div.innerCell {
 div.studSelForm {
 	width: inherit;
 	margin: 0 auto;
-	margin-top: 100px;
+	margin-top: 25px;
 }
 
 #studSelect {
 	width: 200px;
 	margin: 0 auto;
 	padding: 0;
-}
-
-div#studSelect label {
-	width: inherit;
-	height: 37px;
 }
 
 #editStud {
@@ -225,4 +220,59 @@ h2 + input.hidden {
 	text-align: center;
 	font-size: 24px;
 	margin-top: 10px;
+}
+
+#studSelect > ul
+{
+	list-style: none;
+	width: inherit;
+}
+
+#studSelect > ul > li
+{
+	background-color: rgb(240, 240, 244);
+	margin: 0 auto;
+	padding: 0;
+	width: inherit;
+	height: 30px;
+	text-align: center;
+	vertical-align: middle;
+	color: rgb(0, 120, 240);
+}
+
+#studSelect > ul > li:hover
+{
+	background-color: rgb(247, 247, 249);
+}
+
+#studSelect > ul > li:first-child
+{
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+#studSelect > ul > li:last-child
+{
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+#studSelect {
+	padding-right: 75px;
+}
+
+#studSelect > ul > li.selected
+{
+	background-color: rgb(62, 62, 62);
+	color: rgb(255,255,255);
+}
+
+#studSelect > ul > li > a
+{
+	vertical-align: middle;
+}
+
+a
+{
+	text-decoration: none;
 }

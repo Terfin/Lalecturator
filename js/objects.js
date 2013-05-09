@@ -93,7 +93,7 @@ var studentViewModel = function(mainVM) {
 	self.currentPage = ko.observable(0);
 	self.numPages = ko.observable(0);
 	self.studentsByPage = ko.observableArray();
-	self.checkedRadio = ko.observable();
+	self.selectedStudent = ko.observable();
 	self.studentFormObj = ko.observable();
 	self.Students = ko.computed(function () {
 		return ko.utils.arrayFilter(mainVM.Users(), function(item) {
@@ -166,8 +166,8 @@ var studentViewModel = function(mainVM) {
 
 	self.editStudent = function () {
 		renewButtonset('#studSelect', function () {
-			if (self.checkedRadio() != undefined) {
-			var uid = parseInt(self.checkedRadio(), 10);
+			if (self.selectedStudent() != undefined) {
+			var uid = parseInt(self.selectedStudent(), 10);
 			var student = self.Students().filter(function (element) {
 				return element.uid() == uid;
 			});
@@ -186,8 +186,8 @@ var studentViewModel = function(mainVM) {
 
 	self.removeStudent = function () {
 		renewButtonset('#studSelect', function () {
-		if (self.checkedRadio() != undefined) {
-		var uid = parseInt(self.checkedRadio(), 10);
+		if (self.selectedStudent() != undefined) {
+		var uid = parseInt(self.selectedStudent(), 10);
 		var student = mainVM.Users().filter(function (element) {
 			return element.uid == uid;
 		});
@@ -195,7 +195,7 @@ var studentViewModel = function(mainVM) {
 		var lect = mainVM.Users().splice(mainVM.Users().indexOf(function () {
 			return mainVM.Users().filter(function (element) {
 				return element instanceof Lecturer;
-			})[0]}));
+			})[0]}));	
 		mainVM.Users.push(lect[0]);
 		self.studentFormObj(new Student());
 		self.syncUserPage();
@@ -207,17 +207,13 @@ var studentViewModel = function(mainVM) {
 	}
 
 	self.nextPage = function () {
-		renewButtonset('#studSelect', function () {
 		self.currentPage(self.currentPage() + 1);
-		self.studentsByPage(self.Students().slice((self.currentPage() - 1) * 10));
-		});
+		self.studentsByPage(self.Students().slice((self.currentPage() - 1) * 10, self.currentPage() * 10));
 	}
 
 	self.prevPage = function () {
-		renewButtonset('#studSelect', function () {
 		self.currentPage(self.currentPage() - 1);
-		self.studentsByPage(self.Students().slice((self.currentPage() - 1) * 10));
-		});
+		self.studentsByPage(self.Students().slice((self.currentPage() - 1) * 10, self.currentPage() * 10));
 	}
 
 	self.notStudent = function (studId) {
@@ -274,7 +270,7 @@ var examViewModel = function (mainVM) {
 		question.answers().filter(function (answer) {
 			answer.student == loggedUser
 		})
-	}
+	}	 	
 	ko.bindingHandlers.jqspan = {
 		init: function (element, valueAccessor) {
 			console.log(6);
@@ -311,6 +307,12 @@ renewButtonset = function (id, f) {
 	}
 	catch (err) {
 		f();
-		$(id).buttonset();
+		try {
+			$(id).buttonset();
+		}
+		catch (err) {
+			$(id).buttonset('destroy');
+			$(id).buttonset();
+		}
 	}
 }

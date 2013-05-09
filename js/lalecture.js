@@ -47,7 +47,6 @@ $(function () {
 	}
 	$('#resetBtn,#submitBtn,#addStud,#resetStud,#editStud,#removeStud, #newQuestion').button();
 	ko.applyBindings(vm);
-	$('#studSelect').buttonset();
 	$('#examSelector').buttonset();
 });
 var user;

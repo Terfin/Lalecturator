@@ -12,7 +12,7 @@
 	<style type="text/css">
 
 	</style>
-<script type="text/html" id="examTpl" \>
+<script type="text/html" id="examTpl" >
 		<ol data-bind="foreach: questions()">
 			<li>
 				<p data-bind="event: { onLoad: $parent.loadAnswer}">
@@ -68,9 +68,12 @@
 							<div class="rightCell">
 								<div class="studSelForm">
 									<!-- ko if: svm.Students().length > 0 -->
-									<div id="studSelect" data-bind="foreach: svm.studentsByPage">
-											<input type="radio" name="Students" data-bind="attr: {'id': 'stud' + uid()}, value: uid, checked: $root.svm.checkedRadio" />
-											<label data-bind="text: username, attr: {'for': 'stud' + uid()}"></label>
+									<div id="studSelect">
+										<ul data-bind="foreach: svm.studentsByPage">
+											<li data-bind="attr: {'id': 'stud' + uid()}">
+												<a data-bind="text: username, attr: { 'href': 'javascript:vm.svm.selectedStudent(uid())'}"></a>
+											</li>
+										</ul>
 									</div>
 									<input type="button" value="<<" id="prevStuds" data-bind="visible: svm.currentPage() > 1, click: svm.prevPage" />
 									<input type="button" value="Edit" id="editStud" data-bind="click: svm.editStudent" />
@@ -104,9 +107,10 @@
 											<input type="text" class="hidden" id="titleInp" data-bind="value: evm.selectedExam().name" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
 										</div>
 										<hr />
+										<!--
 										<div class="qList" data-bind="template: { name: 'examTpl', data: evm.selectedExam() }">
 													<input type="button" id="newQuestion" data-bind="click: evm.newQuestion" value="Add New Question"/>
-										</div>
+										</div> -->
 									</div>
 									<!-- /ko -->
 							</div>
