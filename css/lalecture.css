@@ -274,11 +274,14 @@ a
 {
 	text-decoration: none;
 	cursor: hand;
-	color: #ffffff;
 }
 
 .listClick
 {
 	background-color: rgb(62, 62, 62) !important;
-	color: #FFFFFF !important;
+}
+
+.listclick a
+{
+	color: #ffffff;
 }
