@@ -80,13 +80,12 @@ var viewModel = function() {
 	}
 
 	self.editDone = function (element) {
-		$('#examSelector').buttonset('destroy');
 		if (event.type == 'blur' || event.keyCode == 13 || event.keyCode == 27) 
 		{
 			$(element).hide();
 			$(element).prev().show();
+            lscache.set('exams', ko.toJS(vm.evm.exams()));
 		}
-		$('#examSelector').buttonset();
 	}
 }
 
@@ -96,6 +95,7 @@ var studentViewModel = function(mainVM) {
 	self.numPages = ko.observable(0);
 	self.studentsByPage = ko.observableArray();
 	self.selectedStudent = ko.observable();
+    self.selectedStudentKO = ko.observable();
 	self.studentFormObj = ko.observable();
 	self.Students = ko.computed(function () {
 		return ko.utils.arrayFilter(mainVM.Users(), function(item) {
@@ -130,18 +130,21 @@ var studentViewModel = function(mainVM) {
 			mainVM.Users.push(self.studentFormObj());
 			self.syncUserPage();
 			self.studentFormObj(new Student());
-			lscache.set('students', ko.mapping.toJS(self.Students));
+			lscache.set('students', ko.toJS(self.Students));
 		}
 	}
 
 	self.syncUserPage = function () {
 		var studLen = self.Students().length;
+        console.log(studLen);
+        self.numPages(Math.floor(((studLen - 1) * 1.0) / 10) + 1);
 		if ((studLen / 10) != Math.floor(studLen / 10)) {
 			self.currentPage(Math.floor((studLen / 10) + 1));
-			if (self.currentPage() > self.numPages()) {
-				self.numPages(self.numPages() + 1);
-			}
 		}
+        else
+        {
+            self.currentPage(Math.floor((studLen / 10)));
+        }
 		self.studentsByPage(self.Students().slice((self.currentPage() - 1) * 10));
 
 	}
@@ -163,17 +166,14 @@ var studentViewModel = function(mainVM) {
 	
 
 	self.editStudent = function () {
-		if (self.selectedStudent() != undefined) {
-		var uid = parseInt(self.selectedStudent(), 10);
-		var student = self.Students().filter(function (element) {
-			return element.uid() == uid;
-		});
+		if (self.selectedStudentKO() != undefined) {
+            var student = self.selectedStudentKO();
 		self.studentFormObj({
-			original: student[0],
-			username: student[0].username(),
-			uid: student[0].uid(),
-			email: student[0].email(),
-			password: student[0].password()
+			original: student,
+			username: student.username(),
+			uid: student.uid(),
+			email: student.email(),
+			password: student.password()
 		});
 		$('#addStud').hide();
 		$('#saveStud').show();
@@ -181,23 +181,22 @@ var studentViewModel = function(mainVM) {
 	}
 
 	self.removeStudent = function () {
-		if (self.selectedStudent() != undefined) {
-		var uid = parseInt(self.selectedStudent(), 10);
-		var student = mainVM.Users().filter(function (element) {
-			return element.uid == uid;
-		});
-		mainVM.Users().splice(mainVM.Users().indexOf(student[0]), 1);
+		if (self.selectedStudentKO() != undefined) {
+		    var student = self.selectedStudentKO();
+		mainVM.Users().splice(mainVM.Users().indexOf(student), 1);
 		var lect = mainVM.Users().splice(mainVM.Users().indexOf(function () {
 			return mainVM.Users().filter(function (element) {
 				return element instanceof Lecturer;
 			})[0]}));	
 		mainVM.Users.push(lect[0]);
 		self.studentFormObj(new Student());
+        self.selectedStudentKO(null);
+        console.log(self.Students())
 		self.syncUserPage();
 		$('#addStud').show();
 		$('#saveStud').hide();
 		}
-		lscache.set('students', self.Students());
+		lscache.set('students', ko.toJS(self.Students()));
 	}
 
 	self.nextPage = function () {
@@ -222,6 +221,7 @@ var studentViewModel = function(mainVM) {
 			$(self.selectedStudent()).removeClass("listClick");
 			$(evt.currentTarget).addClass("listClick");
 			self.selectedStudent(evt.currentTarget);
+            self.selectedStudentKO(student);
 		}
 	}
 }
@@ -231,6 +231,7 @@ var examViewModel = function (mainVM) {
 	var self = this;
 	self.exams = ko.observableArray();
 	var cacheExams = lscache.get('exams');
+    console.log(cacheExams);
 	for (exIdx in cacheExams)
 	{
 		self.exams.push(ko.mapping.fromJS(cacheExams[exIdx], {}, new Exam));
@@ -248,12 +249,10 @@ var examViewModel = function (mainVM) {
 	
 	self.newExam = function () {
 		console.log(2);
-		renewButtonset('#examSelector', function () {
 		var exam = new Exam();
 		self.selectedExam(exam);
 		self.exams.push(exam);
-		});
-		lscache.set('exams', ko.mapping.toJS(self.exams()));
+		lscache.set('exams', ko.toJS(self.exams()));
 	}
 	self.loadExam = function (element) {
 		var exId = parseInt($(element).val(), 10);
@@ -265,56 +264,12 @@ var examViewModel = function (mainVM) {
 	self.newQuestion = function () {
 		console.log(4);
 		self.selectedExam().addQuestion();
-		lscache.set('exams', self.exams());
+		lscache.set('exams', ko.toJS(self.exams()));
 	}
 	self.loadAnswer = function (question) {
 		console.log(5);
 		question.answers().filter(function (answer) {
 			answer.student == loggedUser
 		})
-	}	 	
-	ko.bindingHandlers.jqspan = {
-		init: function (element, valueAccessor) {
-			console.log(6);
-			var ops = valueAccessor();
-			renewButtonset($(element).parent().attr('id'), function() {$(element).text(ops.name())});
-		},
-		update: function (element, valueAccessor) {
-			var ops = valueAccessor();
-			console.log(element);
-			$(element).children().text(ops.name());
-			self.selectedExam(ops);
-		}
-	}
-	ko.bindingHandlers.jqradio = {
-		init: function (element, valueAccessor) {
-			console.log(8);
-			var ops = valueAccessor();
-			$(element).attr('id', 'exam' + ops.id());
-		},
-		update: function (element, valueAccessor) {
-			console.log(9);
-			if(self.selectedExam() != undefined) {
-				$('#exam' + self.selectedExam().id()).prop('checked', self.newExamSelection());
-			}
-		}
-	}
-}
-
-renewButtonset = function (id, f) {
-	console.log(10);
-	try {
-		f();
-		$(id).buttonset('refresh');
-	}
-	catch (err) {
-		f();
-		try {
-			$(id).buttonset();
-		}
-		catch (err) {
-			$(id).buttonset('destroy');
-			$(id).buttonset();
-		}
 	}
 }

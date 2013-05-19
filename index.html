@@ -34,6 +34,9 @@
 	<div class="wrapper">
 		<div class="title">
 			<h1>LaLecturator</h1>
+            <!-- ko if: vm.loggedUser() != undefined -->
+            <input type="button" id="logoutBtn" value="Logout" onclick="logout()" /><span class="welcome" data-bind="text: 'Welcome ' + vm.loggedUser().username()"></span>
+            <!-- /ko -->
 		</div>
 		<div class="content">
 			<div class="login">
@@ -90,13 +93,19 @@
 								<p>List of Exams</p>
 									<hr />
 								<div id="examSelector">
-									<!-- ko ifnot: evm.exams().length == 0 -->	
-									<!-- ko foreach: evm.exams -->
-									<input type="radio" name="examList" data-bind= "attr: { id: 'exam' + id()}, value: id" onclick="vm.evm.loadExam(this)" />
-									<label data-bind="attr: {'for': 'exam' + id() }, jqspan: $data"></label>
-									<!-- /ko -->
-									<!-- /ko -->
-									<input type="button" id="newExam" data-bind="click: evm.newExam" value="Add New Exam" />
+
+									<ul>
+                                        <!-- ko ifnot: evm.exams().length == 0 -->
+                                        <!-- ko foreach: evm.exams -->
+                                        <li data-bind="attr: {'id': 'exam' + id()}, click: selectExam">
+                                            <a data-bind="text: name"></a>
+                                        </li>
+                                        <!-- /ko -->
+                                        <!-- /ko -->
+                                        <li>
+                                            <a data-bind="click: evm.newExam">Add New Exam</a>
+                                        </li>
+									</ul>
 								</div>
 							</div>
 							<div class="rightCell rexam">
@@ -107,10 +116,15 @@
 											<input type="text" class="hidden" id="titleInp" data-bind="value: evm.selectedExam().name" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
 										</div>
 										<hr />
-										<!--
-										<div class="qList" data-bind="template: { name: 'examTpl', data: evm.selectedExam() }">
+										<div class="qList">
+                                                    <ol data-bind="foreach: evm.selectedExam().questions">
+                                                        <li>
+                                                            <h3 id="questionTitle" data-bind="text: text" onclick="vm.editElement(this)"></h3>
+                                                            <input type="text" class="hidden" id="titleInp" data-bind="value: text" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
+                                                        </li>
+                                                    </ol>
 													<input type="button" id="newQuestion" data-bind="click: evm.newQuestion" value="Add New Question"/>
-										</div> -->
+										</div>
 									</div>
 									<!-- /ko -->
 							</div>
@@ -128,6 +142,7 @@
 				
 			</div>
 			<div id="studentTabs">
+
 			</div>
 		</div>
 		<div class="footer">

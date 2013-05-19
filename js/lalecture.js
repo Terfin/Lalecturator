@@ -4,6 +4,7 @@ $(function () {
 	$('#saveStud').button().hide();
 	$('#prevStuds').button();
 	$('#nextStuds').button();
+    $('#logoutBtn').button();
 	var loggedUser;
 	CheckForArrayFilter(); //Adds Array.filter if browser doesn't support by default
 	vm = new viewModel();
@@ -21,7 +22,7 @@ $(function () {
 		})[0]);
 	}
 	$('#userTabs').tabs({active: 0});
-	$('#adminTabs').tabs({active: 0})
+	$('#adminTabs').tabs({active: 0});
 	if (vm.loggedUser())
 	{
 		if (vm.loggedUser() instanceof Lecturer)
@@ -47,7 +48,6 @@ $(function () {
 	}
 	$('#resetBtn,#submitBtn,#addStud,#resetStud,#editStud,#removeStud, #newQuestion').button();
 	ko.applyBindings(vm);
-	$('#examSelector').buttonset();
 });
 var user;
 
@@ -71,6 +71,13 @@ function login () {
 				lscache.set('loggedUser', ko.mapping.toJS(vm.loggedUser), 15);
 			});
 		}
+        else if (user[0] instanceof Student) {
+            $('.login').hide(800, 'swing', function () {
+                $('#studentTabs').show(800);
+                vm.loggedUser(user[0]);
+                lscache.set('loggedUser', ko.mapping.toJS(vm.loggedUser), 15);
+            });
+        }
 	}
 }
 
@@ -104,5 +111,10 @@ function CheckForArrayFilter () {
 	    return res;
 	  };
 	}
+}
+
+function logout () {
+    lscache.remove('loggedUser');
+    location.reload();
 }
 

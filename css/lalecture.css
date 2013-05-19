@@ -49,9 +49,11 @@ div.wrapper > div.title {
 }
 
 div.title h1 {
-	margin: 0 auto;
-	text-align: center;
 	color: #FFFFFF;
+    float: Left;
+    position: absolute;
+    margin-left: 300px;
+    margin-top: 0;
 }
 
 div.content {
@@ -222,13 +224,13 @@ h2 + input.hidden {
 	margin-top: 10px;
 }
 
-#studSelect > ul
+#studSelect > ul, #examSelector > ul
 {
 	list-style: none;
 	width: inherit;
 }
 
-#studSelect > ul > li
+#studSelect > ul > li, #examSelector > ul > li
 {
 	background-color: rgb(240, 240, 244);
 	margin: 0 auto;
@@ -239,18 +241,22 @@ h2 + input.hidden {
 	vertical-align: middle;
 }
 
-#studSelect > ul > li:hover
+#examSelector > ul > li
+{
+    margin-left: -40px;
+}
+#studSelect > ul > li:hover, #examSelector > ul > li:hover
 {
 	background-color: rgb(247, 247, 249);
 }
 
-#studSelect > ul > li:first-child
+#studSelect > ul > li:first-child, #examSelector > ul > li:first-child
 {
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 }
 
-#studSelect > ul > li:last-child
+#studSelect > ul > li:last-child, #examSelector > ul > li:last-child
 {
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
@@ -274,6 +280,13 @@ a
 {
 	text-decoration: none;
 	cursor: hand;
+}
+
+span.welcome, #logoutBtn {
+    float: right;
+    font-size: 16px;
+    font-family: TREBUCHET MS,Helvetica, Arial, sans-serif;
+    font-style: normal;
 }
 
 .listClick
