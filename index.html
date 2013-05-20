@@ -92,8 +92,7 @@
 							<div class="leftCell lexam">
 								<p>List of Exams</p>
 									<hr />
-								<div id="examSelector">
-
+								<div class="examSelector">
 									<ul>
                                         <!-- ko ifnot: evm.exams().length == 0 -->
                                         <!-- ko foreach: evm.exams -->
@@ -112,14 +111,14 @@
 									<!-- ko ifnot: evm.selectedExam() == undefined -->
 									<div class="examForm">
 										<div class="title">
-											<h2 id="examTitle" data-bind="text: evm.selectedExam().name" onclick="vm.editElement(this)"></h2>
+											<h2 class="examTitle" data-bind="text: evm.selectedExam().name" onclick="vm.editElement(this)"></h2>
 											<input type="text" class="hidden" id="titleInp" data-bind="value: evm.selectedExam().name" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
 										</div>
 										<hr />
 										<div class="qList">
                                                     <ol data-bind="foreach: evm.selectedExam().questions">
                                                         <li>
-                                                            <h3 id="questionTitle" data-bind="text: text" onclick="vm.editElement(this)"></h3>
+                                                            <h3 class="questionTitle" data-bind="text: text" onclick="vm.editElement(this)"></h3>
                                                             <input type="text" class="hidden" id="titleInp" data-bind="value: text" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
                                                         </li>
                                                     </ol>
@@ -142,7 +141,48 @@
 				
 			</div>
 			<div id="studentTabs">
-
+                <ul>
+                    <li><a href="#solveExam">Solve Exams</a></li>
+                    <li><a href="#viewGrades">View Grades</a></li>
+                </ul>
+                <div id="solveExam">
+                    <div class="innerCell">
+                        <div class="leftCell lexam">
+                            <p>List of Exams</p>
+                            <hr />
+                            <div class="examSelector">
+                                <ul>
+                                    <!-- ko ifnot: evm.exams().length == 0 -->
+                                    <!-- ko foreach: evm.exams -->
+                                    <li data-bind="attr: {'id': 'exam' + id()}, click: selectExam">
+                                        <a data-bind="text: name"></a>
+                                    </li>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="rightCell rexam">
+                            <!-- ko ifnot: evm.selectedExam() == undefined -->
+                            <div class="examForm">
+                                <div class="title">
+                                    <h2 class="examTitle" data-bind="text: evm.selectedExam().name"></h2>
+                                </div>
+                                <hr />
+                                <div class="qList">
+                                    <ol data-bind="foreach: evm.selectedExam().currentQuestion">
+                                        <li>
+                                            <h3 class="questionTitle" data-bind="text: text"></h3>
+                                            <input type="text" data-bind="value: "/>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <!-- /ko -->
+                        </div>
+                    </div>
+                </div>
+                <div id="viewGrades"></div>
 			</div>
 		</div>
 		<div class="footer">

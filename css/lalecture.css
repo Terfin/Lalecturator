@@ -111,7 +111,7 @@ div.content div {
 	color: red;
 }
 
-#adminTabs {
+#adminTabs, #studentTabs {
 	height: inherit;
 }
 
@@ -190,11 +190,11 @@ div.leftCell form {
 	background: #FFFFFF;
 }
 
-#examSelector {
+div.examSelector {
 	width: inherit;
 }
 
-#examSelector label, #examSelector input {
+div.examSelector label, div.examSelector input {
 	width: inherit !important;
 	border-radius: 0;
 	border: none !important;
@@ -204,7 +204,7 @@ div.qList ul {
 	list-style: none;
 }
 
-#examTitle {
+h2.examTitle {
 	font-size: 29px;
 	margin: 10px auto;
 }
@@ -224,13 +224,13 @@ h2 + input.hidden {
 	margin-top: 10px;
 }
 
-#studSelect > ul, #examSelector > ul
+#studSelect > ul, div.examSelector > ul
 {
 	list-style: none;
 	width: inherit;
 }
 
-#studSelect > ul > li, #examSelector > ul > li
+#studSelect > ul > li, div.examSelector > ul > li
 {
 	background-color: rgb(240, 240, 244);
 	margin: 0 auto;
@@ -241,22 +241,22 @@ h2 + input.hidden {
 	vertical-align: middle;
 }
 
-#examSelector > ul > li
+div.examSelector > ul > li
 {
     margin-left: -40px;
 }
-#studSelect > ul > li:hover, #examSelector > ul > li:hover
+#studSelect > ul > li:hover, div.examSelector > ul > li:hover
 {
 	background-color: rgb(247, 247, 249);
 }
 
-#studSelect > ul > li:first-child, #examSelector > ul > li:first-child
+#studSelect > ul > li:first-child, div.examSelector > ul > li:first-child
 {
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 }
 
-#studSelect > ul > li:last-child, #examSelector > ul > li:last-child
+#studSelect > ul > li:last-child, div.examSelector > ul > li:last-child
 {
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;

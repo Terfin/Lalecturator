@@ -21,14 +21,14 @@ $(function () {
 			return (element.username() == loggedUser.username);
 		})[0]);
 	}
-	$('#userTabs').tabs({active: 0});
+	$('#studentTabs').tabs({active: 0});
 	$('#adminTabs').tabs({active: 0});
 	if (vm.loggedUser())
 	{
 		if (vm.loggedUser() instanceof Lecturer)
 		{
 			$('.login').hide(0);
-			$('#userTabs').tabs({active: 0}).hide(0);
+			$('#studentTabs').tabs({active: 0}).hide(0);
 		}
 		else if (vm.loggedUser() instanceof Student)
 		{
@@ -37,13 +37,13 @@ $(function () {
 		}
 		else
 		{
-			$('#userTabs').hide(0);
+			$('#studentTabs').hide(0);
 			$('#adminTabs').hide(0);
 		}
 	}
 	else 
 	{
-		//	$('#userTabs').tabs({active: 0}).hide(0);
+		$('#studentTabs').tabs({active: 0}).hide(0);
 		$('#adminTabs').hide(0);
 	}
 	$('#resetBtn,#submitBtn,#addStud,#resetStud,#editStud,#removeStud, #newQuestion').button();
