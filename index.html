@@ -36,18 +36,31 @@
             <!-- ko ifnot: evm.selectedExam() == undefined -->
             <div class="examForm">
                 <div class="title">
+                    <!-- ko if: vm.loggedUser() instanceof Lecturer -->
                     <h2 class="examTitle" data-bind="text: evm.selectedExam().name" onclick="vm.editElement(this)"></h2>
                     <input type="text" class="hidden" id="titleInp" data-bind="value: evm.selectedExam().name" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
+                    <!-- /ko -->
+                    <!-- ko ifnot: vm.loggedUser() instanceof Lecturer -->
+                    <h2 class="examTitle" data-bind="text: evm.selectedExam().name"></h2>
+                    <!-- /ko -->
                 </div>
                 <hr />
                 <div class="qList">
                     <ol data-bind="foreach: evm.selectedExam().questions">
                         <li>
+                            <!-- ko if: vm.loggedUser() instanceof Lecturer -->
                             <h3 class="questionTitle" data-bind="text: text" onclick="vm.editElement(this)"></h3>
                             <input type="text" class="hidden" id="titleInp" data-bind="value: text" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
+                            <!-- /ko -->
+                            <!-- ko ifnot: vm.loggedUser() instanceof Lecturer -->
+                            <h3 class="questionTitle" data-bind="text: text"></h3>
+                            <textarea id="answer"></textarea>
+                            <!-- /ko -->
                         </li>
                     </ol>
+                    <!-- ko if: vm.loggedUser() instanceof Lecturer -->
                     <input type="button" id="newQuestion" data-bind="click: evm.newQuestion" value="Add New Question"/>
+                    <!-- /ko -->
                 </div>
             </div>
             <!-- /ko -->
@@ -134,42 +147,7 @@
                     <li><a href="#solveExam">Solve Exams</a></li>
                     <li><a href="#viewGrades">View Grades</a></li>
                 </ul>
-                <div id="solveExam">
-                    <div class="innerCell">
-                        <div class="leftCell lexam">
-                            <p>List of Exams</p>
-                            <hr />
-                            <div class="examSelector">
-                                <ul>
-                                    <!-- ko ifnot: evm.exams().length == 0 -->
-                                    <!-- ko foreach: evm.exams -->
-                                    <li data-bind="attr: {'id': 'exam' + id()}, click: selectExam">
-                                        <a data-bind="text: name"></a>
-                                    </li>
-                                    <!-- /ko -->
-                                    <!-- /ko -->
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="rightCell rexam">
-                            <!-- ko ifnot: evm.selectedExam() == undefined -->
-                            <div class="examForm">
-                                <div class="title">
-                                    <h2 class="examTitle" data-bind="text: evm.selectedExam().name"></h2>
-                                </div>
-                                <hr />
-                                <div class="qList">
-                                    <ol data-bind="foreach: evm.selectedExam().currentQuestion">
-                                        <li>
-                                            <h3 class="questionTitle" data-bind="text: text"></h3>
-                                            <input type="text" class="answer-area" data-bind="value: "/>
-                                        </li>
-                                    </ol>
-                                </div>
-                            </div>
-                            <!-- /ko -->
-                        </div>
-                    </div>
+                <div id="solveExam" data-bind="template: { name: 'examTpl' }">
                 </div>
                 <div id="viewGrades"></div>
 			</div>
