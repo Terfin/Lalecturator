@@ -9,6 +9,11 @@ var User = function(/*args*/)
 	self.password = ko.observable(arguments[1]);
 }
 
+
+    self.addQuestion = function () {
+        return self.create
+        self.questions.push(new Question(self.id, self.questions().length + 1));
+
 var Student = function(/*args*/) {
 	var self = this;
 	self.uid = ko.observable(arguments[0]);
@@ -25,9 +30,6 @@ var Exam = function() {
 	self.name = ko.observable("Exam Title");
 	self.id = ko.observable(++examId);
 	self.questions = ko.observableArray([]);
-	self.addQuestion = function () {
-		self.questions.push(new Question(self.id, self.questions().length + 1));
-	}
 	self.selectExam = function (element) {
 		console.log(element);
 		if (vm.evm.selectedExam() != element)
@@ -53,6 +55,12 @@ var Answer = function(questionId) {
 	self.questionId = questionId;
 	self.student = vm.loggedUser();
 }
+
+var AnswerFactory = {};
+AnswerFactory.extend(User);
+AnswerFactory.extend(Exam);
+AnswerFactory.extend(Question);
+AnswerFactory.extend(Answer);
 
 var viewModel = function() {
 	var self = this;

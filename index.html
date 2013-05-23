@@ -54,7 +54,7 @@
                             <!-- /ko -->
                             <!-- ko ifnot: vm.loggedUser() instanceof Lecturer -->
                             <h3 class="questionTitle" data-bind="text: text"></h3>
-                            <textarea id="answer"></textarea>
+                            <textarea id="answer" data-bind="text: currentAnswer().text"></textarea>
                             <!-- /ko -->
                         </li>
                     </ol>
