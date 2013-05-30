@@ -10,15 +10,21 @@ var User = function(/*args*/)
 }
 
 
-    self.addQuestion = function () {
-        return self.create
-        self.questions.push(new Question(self.id, self.questions().length + 1));
+
 
 var Student = function(/*args*/) {
 	var self = this;
 	self.uid = ko.observable(arguments[0]);
 	self.email = ko.observable(arguments[3]);
+    self.exams = ko.observableArray([]);
 	User.call(this, arguments[1], arguments[2]);
+
+    self.addExam = function (exam) {
+        if (exam instanceof Exam && !(exam in self.exams()))
+        {
+            self.exams.push(exam);
+        }
+    }
 }
 
 var Lecturer = function(username, password) {
@@ -36,7 +42,39 @@ var Exam = function() {
 		{
 			vm.evm.selectedExam(element);
 		}
+    self.score = ko.observable();
 	}
+
+    self.addQuestion = function () {
+        return self.create
+        self.questions.push(new Question(self.id, self.questions().length + 1));
+    }
+
+    this.averageScore = ko.computed(function () {
+        var average = 0.0;
+        if  (vm != undefined)
+        {
+            for (student in vm.svm.Students())
+            {
+                exam = student.exams.filter(function (elem)
+                {
+                    return elem.id() == vm.evm.selectedExam().id();
+                });
+                average += exam.score();
+            }
+            return average;
+        }
+        return 0.0;
+    });
+
+    this.createStudentExam = function () {
+        var exam =  new Exam();
+        exam.id(self.id());
+        exam.name(self.name());
+        exam.questions = self.questions();
+        return exam;
+
+    }
 }
 
 var Question = function(examId, qid) {
@@ -55,12 +93,6 @@ var Answer = function(questionId) {
 	self.questionId = questionId;
 	self.student = vm.loggedUser();
 }
-
-var AnswerFactory = {};
-AnswerFactory.extend(User);
-AnswerFactory.extend(Exam);
-AnswerFactory.extend(Question);
-AnswerFactory.extend(Answer);
 
 var viewModel = function() {
 	var self = this;

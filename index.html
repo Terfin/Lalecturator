@@ -19,54 +19,77 @@
             <hr />
             <div class="examSelector">
                 <ul>
-                    <!-- ko ifnot: evm.exams().length == 0 -->
-                    <!-- ko foreach: evm.exams -->
+                    <!-- ko ifnot: vm.evm.exams().length == 0 -->
+                    <!-- ko foreach: vm.evm.exams -->
                     <li data-bind="attr: {'id': 'exam' + id()}, click: selectExam">
                         <a data-bind="text: name"></a>
                     </li>
                     <!-- /ko -->
                     <!-- /ko -->
                     <li>
-                        <a data-bind="click: evm.newExam">Add New Exam</a>
+                        <a data-bind="click: vm.evm.newExam">Add New Exam</a>
                     </li>
                 </ul>
             </div>
         </div>
-        <div class="rightCell rexam">
-            <!-- ko ifnot: evm.selectedExam() == undefined -->
-            <div class="examForm">
-                <div class="title">
-                    <!-- ko if: vm.loggedUser() instanceof Lecturer -->
-                    <h2 class="examTitle" data-bind="text: evm.selectedExam().name" onclick="vm.editElement(this)"></h2>
-                    <input type="text" class="hidden" id="titleInp" data-bind="value: evm.selectedExam().name" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
-                    <!-- /ko -->
-                    <!-- ko ifnot: vm.loggedUser() instanceof Lecturer -->
-                    <h2 class="examTitle" data-bind="text: evm.selectedExam().name"></h2>
-                    <!-- /ko -->
-                </div>
-                <hr />
-                <div class="qList">
-                    <ol data-bind="foreach: evm.selectedExam().questions">
-                        <li>
-                            <!-- ko if: vm.loggedUser() instanceof Lecturer -->
-                            <h3 class="questionTitle" data-bind="text: text" onclick="vm.editElement(this)"></h3>
-                            <input type="text" class="hidden" id="titleInp" data-bind="value: text" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
-                            <!-- /ko -->
-                            <!-- ko ifnot: vm.loggedUser() instanceof Lecturer -->
-                            <h3 class="questionTitle" data-bind="text: text"></h3>
-                            <textarea id="answer" data-bind="text: currentAnswer().text"></textarea>
-                            <!-- /ko -->
-                        </li>
-                    </ol>
-                    <!-- ko if: vm.loggedUser() instanceof Lecturer -->
-                    <input type="button" id="newQuestion" data-bind="click: evm.newQuestion" value="Add New Question"/>
-                    <!-- /ko -->
-                </div>
-            </div>
-            <!-- /ko -->
+        <div class="rightCell rexam" data-bind="template: { name : $data }">
+
         </div>
     </div>
 	</script>
+    <script type="text/html" id="editExamDetails">
+        <!-- ko ifnot: vm.evm.selectedExam() == undefined -->
+        <div class="examForm">
+            <div class="title">
+                <!-- ko if: vm.loggedUser() instanceof Lecturer -->
+                <h2 class="examTitle" data-bind="text: vm.evm.selectedExam().name" onclick="vm.editElement(this)"></h2>
+                <input type="text" class="hidden" id="titleInp" data-bind="value: vm.evm.selectedExam().name" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
+                <!-- /ko -->
+                <!-- ko ifnot: vm.loggedUser() instanceof Lecturer -->
+                <h2 class="examTitle" data-bind="text: vm.evm.selectedExam().name"></h2>
+                <!-- /ko -->
+            </div>
+            <hr />
+            <div class="qList">
+                <ol data-bind="foreach: vm.evm.selectedExam().questions">
+                    <li>
+                        <!-- ko if: vm.loggedUser() instanceof Lecturer -->
+                        <h3 class="questionTitle" data-bind="text: text" onclick="vm.editElement(this)"></h3>
+                        <input type="text" class="hidden" id="titleInp" data-bind="value: text" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
+                        <!-- /ko -->
+                        <!-- ko ifnot: vm.loggedUser() instanceof Lecturer -->
+                        <h3 class="questionTitle" data-bind="text: text"></h3>
+                        <textarea id="answer" data-bind="text: currentAnswer().text"></textarea>
+                        <!-- /ko -->
+                    </li>
+                </ol>
+                <!-- ko if: vm.loggedUser() instanceof Lecturer -->
+                <input type="button" id="newQuestion" data-bind="click: vm.evm.newQuestion" value="Add New Question"/>
+                <!-- /ko -->
+            </div>
+        </div>
+        <!-- /ko -->
+    </script>
+
+    <script type="text/html">
+        <table>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Mark</th>
+            <!-- ko: foreach vm.svm.students() -->
+            <tr>
+                <td data-bind="text: id"></td>
+                <td data-bind="text: username"></td>
+                <td data-bind="text: getStudentExamStatus(vm.evm.currentExam)"></td>
+                <td data-bind="text: getStudentExamMark(vm.evm.currentExam)"></td>
+            </tr>
+            <!-- /ko -->
+            <tr>
+                <td data-bind="text: 'Average: ' + vm.evm.currentExam().averageMark"></td>
+            </tr>
+        </table>
+    </script>
 	<script type="text/javascript" src="js/objects.js"></script>
 		
 	<script type="text/javascript" src="js/lalecture.js"></script>
@@ -129,12 +152,13 @@
 							</div>
 						</div>
 					</div>
-					<div id="addExam" data-bind="template: { name: 'examTpl'}">
+					<div id="addExam" data-bind="template: { name: 'examTpl', data: 'editExamDetails'}">
 					</div>
 
 					<div id="showGrades">
 						<div class="innerCell">
 							<div class="leftCell lexam">
+
 							</div>
 							<div class="rightCell rexam">
 							</div>
@@ -147,7 +171,7 @@
                     <li><a href="#solveExam">Solve Exams</a></li>
                     <li><a href="#viewGrades">View Grades</a></li>
                 </ul>
-                <div id="solveExam" data-bind="template: { name: 'examTpl' }">
+                <div id="solveExam" data-bind="template: { name: 'examTpl', data: 'editExamDetails' }">
                 </div>
                 <div id="viewGrades"></div>
 			</div>
