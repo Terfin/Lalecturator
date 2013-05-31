@@ -26,9 +26,11 @@
                     </li>
                     <!-- /ko -->
                     <!-- /ko -->
+                    <!-- ko if: vm.loggedUser() instanceof Lecturer -->
                     <li>
                         <a data-bind="click: vm.evm.newExam">Add New Exam</a>
                     </li>
+                    <!-- /ko -->
                 </ul>
             </div>
         </div>
@@ -59,7 +61,7 @@
                         <!-- /ko -->
                         <!-- ko ifnot: vm.loggedUser() instanceof Lecturer -->
                         <h3 class="questionTitle" data-bind="text: text"></h3>
-                        <textarea id="answer" data-bind="text: currentAnswer().text"></textarea>
+                        <textarea id="answer" data-bind="text: Answer"></textarea>
                         <!-- /ko -->
                     </li>
                 </ol>

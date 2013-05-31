@@ -4,12 +4,14 @@
     <list default="true" id="a1148958-941d-4448-b160-779bf20b214d" name="Default" comment="" />
     <ignored path="Lalecturator.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1369908292629" ignored="false" />
+    <file path="/Dummy.txt" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1369924452167" ignored="false" />
     <file path="/fragment.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1368040185542" ignored="false" />
     <file path="/lalecture.css" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1368989335205" ignored="false" />
-    <file path="/objects.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1369921272179" ignored="false" />
-    <file path="/index.html" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1369916653971" ignored="false" />
+    <file path="/objects.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1369926144524" ignored="false" />
+    <file path="/index.html" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1369929540454" ignored="false" />
     <file path="/lalecture.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1368982813384" ignored="false" />
+    <file path="/a.html" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1369925402270" ignored="false" />
+    <file path="/a.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1369925490308" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,19 +31,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="objects.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="objects.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/objects.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="19" selection-start="1610" selection-end="1610" vertical-scroll-proportion="0.83840305">
+            <state line="48" column="36" selection-start="1075" selection-end="1075" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="37" selection-start="2496" selection-end="2496" vertical-scroll-proportion="-8.5">
+            <state line="63" column="69" selection-start="3166" selection-end="3166" vertical-scroll-proportion="0.6109155">
               <folding />
             </state>
           </provider>
@@ -85,16 +87,32 @@
       <list>
         <option value="$PROJECT_DIR$/js/lalecture.js" />
         <option value="$PROJECT_DIR$/css/lalecture.css" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/objects.js" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="width" value="1386" />
+    <option name="height" value="788" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>CoffeeScript</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -122,7 +140,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -171,18 +188,19 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="vcs.Git" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/js/jquery-ui-1.10.2.custom.js" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/index.html" />
     <property name="FullScreen" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager" selected="JavaScript Debug.Unnamed">
     <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
@@ -247,14 +265,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
+    <frame x="-8" y="-8" width="1386" height="788" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24459673" sideWeight="0.61333334" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38666666" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24424647" sideWeight="0.61333334" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38567072" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32444444" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -421,16 +439,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/js/objects.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="37" selection-start="2496" selection-end="2496" vertical-scroll-proportion="-8.5">
+        <state line="48" column="36" selection-start="1075" selection-end="1075" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/objects.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="19" selection-start="1610" selection-end="1610" vertical-scroll-proportion="0.83840305">
+        <state line="63" column="69" selection-start="3166" selection-end="3166" vertical-scroll-proportion="0.6109155">
           <folding />
         </state>
       </provider>

@@ -46,7 +46,6 @@ var Exam = function() {
 	}
 
     self.addQuestion = function () {
-        return self.create
         self.questions.push(new Question(self.id, self.questions().length + 1));
     }
 
@@ -56,11 +55,14 @@ var Exam = function() {
         {
             for (student in vm.svm.Students())
             {
-                exam = student.exams.filter(function (elem)
+                if  (student.exams != undefined)
                 {
-                    return elem.id() == vm.evm.selectedExam().id();
-                });
-                average += exam.score();
+                    exam = student.exams.filter(function (elem)
+                    {
+                        return elem.id() == vm.evm.selectedExam().id();
+                    });
+                    average += exam.score();
+                }
             }
             return average;
         }
