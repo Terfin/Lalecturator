@@ -298,3 +298,16 @@ span.welcome, #logoutBtn {
 {
 	color: #ffffff;
 }
+
+#answer {
+    width: 500px;
+    height: 100px;
+    resize: none;
+}
+
+.middler {
+    position: absolute;
+    bottom: 100px;
+    left: 600px;
+    width: 200px;
+}

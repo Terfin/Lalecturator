@@ -3,7 +3,7 @@
 	<title>LaLecturator - Education Made Easy</title>
 	<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.10.2.custom.js"></script>
-	<script type="text/javascript" src="js/knockout-2.2.1.js"></script>
+	<script type="text/javascript" src="js/knockout-2.2.1.debug.js"></script>
 	<script type="text/javascript" src="js/knockout-jquery-ui-widget.js"></script>
 	<script type="text/javascript" src="js/lscache.js"></script>
 	<script type="text/javascript" src="js/knockout.mapping.js"></script>
@@ -44,8 +44,8 @@
         <div class="examForm">
             <div class="title">
                 <!-- ko if: vm.loggedUser() instanceof Lecturer -->
-                <h2 class="examTitle" data-bind="text: vm.evm.selectedExam().name" onclick="vm.editElement(this)"></h2>
-                <input type="text" class="hidden" id="titleInp" data-bind="value: vm.evm.selectedExam().name" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
+                <h2 class="examTitle" data-bind="text: vm.evm.selectedExam().name" onclick="vm.editElement(this, event)"></h2>
+                <input type="text" class="hidden" id="titleInp" data-bind="value: vm.evm.selectedExam().name" onblur="vm.editDone(this, event)" onkeyup="vm.editDone(this, event)">
                 <!-- /ko -->
                 <!-- ko ifnot: vm.loggedUser() instanceof Lecturer -->
                 <h2 class="examTitle" data-bind="text: vm.evm.selectedExam().name"></h2>
@@ -53,21 +53,32 @@
             </div>
             <hr />
             <div class="qList">
-                <ol data-bind="foreach: vm.evm.selectedExam().questions">
+                <ol data-bind="foreach: vm.evm.selectedExam().questionsInPage">
                     <li>
                         <!-- ko if: vm.loggedUser() instanceof Lecturer -->
-                        <h3 class="questionTitle" data-bind="text: text" onclick="vm.editElement(this)"></h3>
-                        <input type="text" class="hidden" id="titleInp" data-bind="value: text" onblur="vm.editDone(this)" onkeyup="vm.editDone(this)">
+                        <h3 class="questionTitle" data-bind="text: text" onclick="vm.editElement(this, event)"></h3>
+                        <input type="text" class="hidden" id="titleInp" data-bind="value: text" onblur="vm.editDone(this, event)" onkeyup="vm.editDone(this, event)">
                         <!-- /ko -->
                         <!-- ko ifnot: vm.loggedUser() instanceof Lecturer -->
                         <h3 class="questionTitle" data-bind="text: text"></h3>
-                        <textarea id="answer" data-bind="text: Answer"></textarea>
+                        <textarea id="answer" data-bind="value: currentAnswer, event: { blur: SaveAnswer }"></textarea>
                         <!-- /ko -->
                     </li>
                 </ol>
-                <!-- ko if: vm.loggedUser() instanceof Lecturer -->
-                <input type="button" id="newQuestion" data-bind="click: vm.evm.newQuestion" value="Add New Question"/>
+                <div class="middler">
+                <!-- ko with: vm.evm.selectedExam -->
+                <!-- ko if: currentPage() > 0 && loggedUser instanceof Student -->
+                <input type="button" id="examPrev" value="Back" data-bind="click: prevPage, uibutton: {}" />
                 <!-- /ko -->
+                <!-- ko if: currentPage() < QuestionPages() - 1 && loggedUser instanceof Student -->
+                <input type="button" id="examNext" value="Next" data-bind="click: nextPage, uibutton: {}" />
+                <!-- /ko -->
+                <!-- /ko -->
+                </div>
+                <!-- ko if: vm.loggedUser() instanceof Lecturer -->
+                <input type="button" id="newQuestion" data-bind="click: vm.evm.newQuestion, uibutton: {}" value="Add New Question"/>
+                <!-- /ko -->
+
             </div>
         </div>
         <!-- /ko -->
@@ -92,9 +103,8 @@
             </tr>
         </table>
     </script>
-	<script type="text/javascript" src="js/objects.js"></script>
-		
 	<script type="text/javascript" src="js/lalecture.js"></script>
+    <script type="text/javascript" src="js/objects.js"></script>
 
 </head>
 <body>

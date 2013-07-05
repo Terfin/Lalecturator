@@ -1,11 +1,16 @@
 var vm;
-
+var loggedUser;
 $(function () {
+    ko.bindingHandlers.uibutton = {
+        init: function(element, valueAccessor) {
+            var $element = $(element), config = valueAccessor();
+            $element.button();
+        }
+    }
 	$('#saveStud').button().hide();
 	$('#prevStuds').button();
 	$('#nextStuds').button();
     $('#logoutBtn').button();
-	var loggedUser;
 	CheckForArrayFilter(); //Adds Array.filter if browser doesn't support by default
 	vm = new viewModel();
 	var rawStudents = lscache.get('students');
@@ -15,10 +20,21 @@ $(function () {
 	vm.Users.push(new Lecturer('Admin', 'Foo'));
 	vm.loginObj(new User());
 	vm.svm.studentFormObj(new Student());
-	loggedUser = lscache.get('loggedUser');
+	var rawLoggedUser = lscache.get('loggedUser');
+    if (rawLoggedUser != null)
+    {
+        if (rawLoggedUser.uid != undefined)
+        {
+            loggedUser = ko.mapping.fromJS(rawLoggedUser, {}, new Student);
+        }
+        else
+        {
+            loggedUser = ko.mapping.fromJS(rawLoggedUser, {}, new Lecturer);
+        }
+    }
 	if (loggedUser != null) {
 		vm.loggedUser(vm.Users().filter(function (element) {
-			return (element.username() == loggedUser.username);
+			return (element.username() == loggedUser.username());
 		})[0]);
 	}
 	$('#studentTabs').tabs({active: 0});
