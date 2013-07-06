@@ -299,7 +299,7 @@ span.welcome, #logoutBtn {
 	color: #ffffff;
 }
 
-#answer {
+#answer, .lectTxtArea {
     width: 500px;
     height: 100px;
     resize: none;
@@ -310,4 +310,21 @@ span.welcome, #logoutBtn {
     bottom: 100px;
     left: 600px;
     width: 200px;
+}
+
+#gradesLect {
+    width: inherit;
+}
+
+#gradesLect tr td {
+    text-align: center;
+}
+
+.linkLike {
+    cursor: hand;
+    cursor: pointer;
+}
+
+.linkLike:hover {
+    color: #c0402a;
 }

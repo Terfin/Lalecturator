@@ -16,7 +16,40 @@ var Student = function(/*args*/) {
 	var self = this;
 	self.uid = ko.observable(arguments[0]);
 	self.email = ko.observable(arguments[3]);
-    self.exams = ko.observableArray([]);
+    self.exams = ko.observableArray();
+    vm.evm.exams.subscribe(function (exams)
+    {
+        for (var i=0; i < exams.length; i++)
+        {
+
+            var exam = self.exams().filter(function (exam)
+            {
+                return exams[i].id() == exam.id;
+            });
+            if (exam.length == 0)
+            {
+                self.exams().push({ id: ko.observable(exams[i].id()), Score: ko.observable(null)});
+            }
+        }
+        lscache.set('students', ko.mapping.toJS(vm.svm.Students(), {'ignore' : ['selectedExam', 'selectedExamAnswers']} ));
+    });
+    self.selectedExam = ko.computed(function ()
+    {
+
+        if (vm.evm.selectedExam() != undefined && self.exams().length > 0)
+        {
+            var exam = self.exams().filter(function (exam)
+        {
+            return exam.id() == vm.evm.selectedExam().id();
+        });
+            if (exam.length > 0)
+            {
+                return exam[0];
+            }
+            return null;
+        }
+        return null;
+    });
 	User.call(this, arguments[1], arguments[2]);
 
     self.addExam = function (exam) {
@@ -25,6 +58,65 @@ var Student = function(/*args*/) {
             self.exams.push(exam);
         }
     }
+    self.GetExamStatus = function (exam) {
+        if (exam != null) {
+        var answeredQuestions = 0;
+        for (var i = 0; i < exam.questions().length; i++)
+        {
+            var userAnswer = exam.questions()[i].answers().filter(function (answer)
+            {
+                return answer.userId() == self.uid();
+            });
+            if (userAnswer.length > 0)
+            {
+                answeredQuestions++;
+            }
+        }
+        return answeredQuestions+" / "+exam.questions().length;
+        }
+    }
+    self.GradeExam = function () {
+        var exam = vm.evm.selectedExam();
+        var scorePerQuestion = (100 * 1.0) / exam.questions().length;
+        var correctAnswers = self.selectedExamAnswers().filter(function (answer)
+        {
+            return answer.correct();
+        });
+        self.selectedExam().Score(correctAnswers.length * scorePerQuestion);
+        lscache.set('students', ko.mapping.toJS(vm.svm.Students(), { 'ignore': ['selectedExam', 'selectedExamAnswers']}));
+    }
+    self.GetExamMark = function (exam) {
+        if (exam != null) {
+            if (self.selectedExam() != null && self.selectedExam().Score() != undefined)
+            {
+                return self.selectedExam().Score();
+            }
+            return "Click here to grade";
+        }
+    }
+    self.openGradesForStudent = function () {
+        vm.svm.selectedStudent(self);
+        $('#studModal').dialog("open");
+    }
+    self.selectedExamAnswers = ko.computed(function () {
+        var answers = [];
+        if (vm.evm.selectedExam() != undefined)
+        {
+        for (var i = 0; i < vm.evm.selectedExam().questions().length; i++)
+        {
+            var question = vm.evm.selectedExam().questions()[i];
+            var answer = question.answers().filter(function (answer) {
+                return answer.userId() == self.uid();
+            });
+            if (answer[0] != undefined)
+            {
+            answers.push({ text: ko.observable(question.text()), answer: ko.observable(answer[0].content() || ""), correct: ko.observable(false)});
+            }
+        }
+        }
+        return answers;
+    });
+    self.ViewedExam = ko.observable();
 }
 
 var Lecturer = function(username, password) {
@@ -153,7 +245,9 @@ var Question = function(data, examId, qid) {
             answer[0].content(self.currentAnswer());
             self.answers.valueHasMutated();
         }
-        lscache.set('exams', ko.mapping.toJS(vm.evm.exams()));
+        lscache.set('exams', ko.mapping.toJS(vm.evm.exams(), {
+            'ignore': ['currentUserAnswer' ,'QuestionPages', 'averageScore', 'currentPage', 'questionsInPage']
+        }));
     }
 }
 
@@ -166,6 +260,7 @@ var Answer = function(id, content, userId)
 }
 var viewModel = function() {
 	var self = this;
+    self.currentTab = ko.observable();
 	self.Users = ko.observableArray([]);
 	self.Lecturers = ko.computed(function () {
 		return ko.utils.arrayFilter(self.Users(), function(item) {
@@ -194,7 +289,7 @@ var viewModel = function() {
 		{
 			$(element).hide();
 			$(element).prev().show();
-            lscache.set('exams', ko.mapping.toJS(vm.evm.exams(), { 'ignore' : ['currentUserAnswer']}));
+            lscache.set('exams', ko.mapping.toJS(vm.evm.exams(), { 'ignore' : ['currentUserAnswer', 'QuestionPages', 'averageScore', 'currentPage', 'questionsInPage']}));
 		}
 	}
 }
@@ -240,7 +335,9 @@ var studentViewModel = function(mainVM) {
 			mainVM.Users.push(self.studentFormObj());
 			self.syncUserPage();
 			self.studentFormObj(new Student());
-			lscache.set('students', ko.mapping.toJS(self.Students));
+			lscache.set('students', ko.mapping.toJS(self.Students, {
+                'ignore' : ['selectedExam', 'selectedExamAnswers']
+            }));
 		}
 	}
 
@@ -269,7 +366,7 @@ var studentViewModel = function(mainVM) {
 		self.syncUserPage();
 		$('#addStud').show();
 		$('#saveStud').hide();
-		lscache.set('students', ko.mapping.toJS(self.Students()));
+		lscache.set('students', ko.mapping.toJS(self.Students(), { 'ignore' : ['selectedExam', 'selectedExamAnswers'] }));
 	}
 
 	
@@ -304,7 +401,7 @@ var studentViewModel = function(mainVM) {
 		$('#addStud').show();
 		$('#saveStud').hide();
 		}
-		lscache.set('students', ko.mapping.toJS(self.Students()));
+		lscache.set('students', ko.mapping.toJS(self.Students(), {'ignore' : ['selectedExam', 'selectedExamAnswers']}));
 	}
 
 	self.nextPage = function () {
@@ -375,7 +472,7 @@ var examViewModel = function (MainVM) {
 		var exam = new Exam();
 		self.selectedExam(exam);
 		self.exams.push(exam);
-		lscache.set('exams', ko.mapping.toJS(self.exams()));
+		lscache.set('exams', ko.mapping.toJS(self.exams(), { 'ignore': ['currentUserAnswer', 'QuestionPages', 'averageScore', 'currentPage', 'questionsInPage']}));
 	}
 	self.loadExam = function (element) {
 		var exId = parseInt($(element).val(), 10);
@@ -386,7 +483,7 @@ var examViewModel = function (MainVM) {
 	}
 	self.newQuestion = function () {
 		self.selectedExam().addQuestion();
-		lscache.set('exams', ko.mapping.toJS(self.exams()));
+		lscache.set('exams', ko.mapping.toJS(self.exams(), { 'ignore': ['currentUserAnswer', 'QuestionPages', 'averageScore', 'currentPage', 'questionsInPage']}));
 	}
 	self.loadAnswer = function (question) {
 		var currentAnswersSet = question.answers().filter(function (answer) {

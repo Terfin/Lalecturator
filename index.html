@@ -26,7 +26,7 @@
                     </li>
                     <!-- /ko -->
                     <!-- /ko -->
-                    <!-- ko if: vm.loggedUser() instanceof Lecturer -->
+                    <!-- ko if: vm.loggedUser() instanceof Lecturer && vm.currentTab() != 2 -->
                     <li>
                         <a data-bind="click: vm.evm.newExam">Add New Exam</a>
                     </li>
@@ -84,24 +84,37 @@
         <!-- /ko -->
     </script>
 
-    <script type="text/html">
-        <table>
+    <script type="text/html" id="gradeExam">
+        <!-- ko if: vm.evm.selectedExam() != undefined -->
+        <table id="gradesLect">
+            <tr>
             <th>ID</th>
             <th>Name</th>
+                <th>Email</th>
             <th>Status</th>
             <th>Mark</th>
-            <!-- ko: foreach vm.svm.students() -->
-            <tr>
-                <td data-bind="text: id"></td>
-                <td data-bind="text: username"></td>
-                <td data-bind="text: getStudentExamStatus(vm.evm.currentExam)"></td>
-                <td data-bind="text: getStudentExamMark(vm.evm.currentExam)"></td>
             </tr>
+            <!-- ko foreach: vm.svm.Students -->
+            <tr>
+                <td data-bind="text: uid"></td>
+                <td data-bind="text: username"></td>
+                <td data-bind="text: email"></td>
+                <td data-bind="text: GetExamStatus(vm.evm.selectedExam())"></td>
+               <!-- ko if: selectedExam() != undefined && selectedExam().Score() != undefined -->
+                <td data-bind="text: GetExamMark(vm.evm.selectedExam())"></td>
+                <!-- /ko -->
+                <!-- ko if: selectedExam() == undefined || selectedExam().Score() == undefined -->
+                <td data-bind="text: GetExamMark(vm.evm.selectedExam()), click: openGradesForStudent" class="linkLike">
+                </td>
+                <!-- /ko -->
+            </tr>
+            <!-- /ko -->
             <!-- /ko -->
             <tr>
                 <td data-bind="text: 'Average: ' + vm.evm.currentExam().averageMark"></td>
             </tr>
         </table>
+        <!-- /ko -->
     </script>
 	<script type="text/javascript" src="js/lalecture.js"></script>
     <script type="text/javascript" src="js/objects.js"></script>
@@ -129,7 +142,7 @@
 			<div id="adminTabs">
 				<ul>
 					<li><a href="#addStudent" data-bind="click: resetLS()">Add/Edit/Remove Student</a></li>
-					<li><a href="#addExam" data-bind="click: resetLS()">Add/Remove Exam</a></li>
+					<li><a href="#addExam" data-bind="click: resetLS()">Add/Edit Exam</a></li>
 					<li><a href="#showGrades" data-bind="click: resetLS()">Course Grades</a></li>
 				</ul>
 					<div id="addStudent">
@@ -167,16 +180,8 @@
 					<div id="addExam" data-bind="template: { name: 'examTpl', data: 'editExamDetails'}">
 					</div>
 
-					<div id="showGrades">
-						<div class="innerCell">
-							<div class="leftCell lexam">
-
-							</div>
-							<div class="rightCell rexam">
-							</div>
-						</div>
+					<div id="showGrades" data-bind="template: { name: 'examTpl', data: 'gradeExam' }">
 					</div>
-				
 			</div>
 			<div id="studentTabs">
                 <ul>
@@ -190,6 +195,18 @@
 		</div>
 		<div class="footer">
 		</div>
+        <div id="studModal">
+        <!-- ko with: vm.svm.selectedStudent -->
+            <ol data-bind="foreach: selectedExamAnswers">
+                <li>
+                <h3 data-bind="text: text"></h3>
+                <div><textarea class="lectTxtArea" disabled="true" data-bind="text: answer"></textarea></div>
+                <div>Is Correct: <input type="checkbox" data-bind="checked: correct"/></div>
+                </li>
+            </ol>
+            <input type="button" value="Grade" data-bind="click: GradeExam" />
+        <!-- /ko -->
+        </div>
 	</div>
 </body>
 </html>

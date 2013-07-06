@@ -6,10 +6,10 @@
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373005771733" ignored="false" />
     <file path="/fragment.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1368040185542" ignored="false" />
-    <file path="/lalecture.css" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373032690375" ignored="false" />
-    <file path="/objects.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373034177191" ignored="false" />
-    <file path="/index.html" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373034255087" ignored="false" />
-    <file path="/lalecture.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373032577294" ignored="false" />
+    <file path="/lalecture.css" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373097783045" ignored="false" />
+    <file path="/objects.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373130944957" ignored="false" />
+    <file path="/index.html" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373130386237" ignored="false" />
+    <file path="/lalecture.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373101448162" ignored="false" />
     <file path="/a.html" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1369925402270" ignored="false" />
     <file path="/a.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1369925490308" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -31,19 +31,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="78" column="104" selection-start="4132" selection-end="4132" vertical-scroll-proportion="0.76334953">
+            <state line="105" column="58" selection-start="5153" selection-end="5153" vertical-scroll-proportion="-10.490196">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="objects.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="objects.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/objects.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="386" column="20" selection-start="10931" selection-end="10942" vertical-scroll-proportion="-23.12">
+            <state line="23" column="43" selection-start="464" selection-end="464" vertical-scroll-proportion="0.46">
               <folding />
             </state>
           </provider>
@@ -52,7 +52,7 @@
       <file leaf-file-name="lalecture.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/lalecture.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="83" selection-start="1795" selection-end="1806" vertical-scroll-proportion="-11.32">
+            <state line="19" column="28" selection-start="527" selection-end="527" vertical-scroll-proportion="-12.92">
               <folding />
             </state>
           </provider>
@@ -61,7 +61,7 @@
       <file leaf-file-name="lalecture.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/lalecture.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="308" column="22" selection-start="4295" selection-end="4303" vertical-scroll-proportion="0.0">
+            <state line="301" column="10" selection-start="4212" selection-end="4212" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -87,8 +87,8 @@
       <list>
         <option value="$PROJECT_DIR$/css/lalecture.css" />
         <option value="$PROJECT_DIR$/js/lalecture.js" />
-        <option value="$PROJECT_DIR$/js/objects.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/objects.js" />
       </list>
     </option>
   </component>
@@ -445,30 +445,30 @@
         <state line="43" column="0" selection-start="19913" selection-end="19927" vertical-scroll-proportion="0.049418606" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/lalecture.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="308" column="22" selection-start="4295" selection-end="4303" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/objects.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="386" column="20" selection-start="10931" selection-end="10942" vertical-scroll-proportion="-23.12">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/lalecture.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="83" selection-start="1795" selection-end="1806" vertical-scroll-proportion="-11.32">
+        <state line="19" column="28" selection-start="527" selection-end="527" vertical-scroll-proportion="-12.92">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/lalecture.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="301" column="10" selection-start="4212" selection-end="4212" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="104" selection-start="4132" selection-end="4132" vertical-scroll-proportion="0.76334953">
+        <state line="105" column="58" selection-start="5153" selection-end="5153" vertical-scroll-proportion="-10.490196">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/objects.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="43" selection-start="464" selection-end="464" vertical-scroll-proportion="0.46">
           <folding />
         </state>
       </provider>

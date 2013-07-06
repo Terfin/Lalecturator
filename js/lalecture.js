@@ -11,6 +11,14 @@ $(function () {
 	$('#prevStuds').button();
 	$('#nextStuds').button();
     $('#logoutBtn').button();
+    $('#studModal').dialog({
+        autoOpen: false,
+        closeOnEscape: true,
+        modal: true,
+        width: 600,
+        height: 550,
+        title: "Exam Review"
+    });
 	CheckForArrayFilter(); //Adds Array.filter if browser doesn't support by default
 	vm = new viewModel();
 	var rawStudents = lscache.get('students');
@@ -38,7 +46,9 @@ $(function () {
 		})[0]);
 	}
 	$('#studentTabs').tabs({active: 0});
-	$('#adminTabs').tabs({active: 0});
+	$('#adminTabs').tabs({active: 0,  activate: function (event, ui) {
+        vm.currentTab($('#adminTabs').tabs('option', 'active'));
+    }});
 	if (vm.loggedUser())
 	{
 		if (vm.loggedUser() instanceof Lecturer)
@@ -62,7 +72,7 @@ $(function () {
 		$('#studentTabs').tabs({active: 0}).hide(0);
 		$('#adminTabs').hide(0);
 	}
-	$('#resetBtn,#submitBtn,#addStud,#resetStud,#editStud,#removeStud, #newQuestion').button();
+	$('#resetBtn,#submitBtn,#addStud,#resetStud,#editStud,#removeStud').button();
 	ko.applyBindings(vm);
 });
 var user;
@@ -81,16 +91,20 @@ function login () {
 			$('#errorMsg').text("");
 		}
 		if (user[0] instanceof Lecturer){
+            console.log(user);
 			$('.login').hide(800, 'swing', function () {
 				$('#adminTabs').show(800);
 				vm.loggedUser(user[0]);
+                loggedUser = user[0];
 				lscache.set('loggedUser', ko.mapping.toJS(vm.loggedUser), 15);
 			});
 		}
         else if (user[0] instanceof Student) {
+            console.log(user);
             $('.login').hide(800, 'swing', function () {
                 $('#studentTabs').show(800);
                 vm.loggedUser(user[0]);
+                loggedUser = user[0];
                 lscache.set('loggedUser', ko.mapping.toJS(vm.loggedUser), 15);
             });
         }
