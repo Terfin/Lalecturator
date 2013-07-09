@@ -12,6 +12,8 @@
 	<style type="text/css">
 
 	</style>
+<!-- TEMPLATES SECTION -->
+    <!-- EXAM TEMPLATE -->
 <script type="text/html" id="examTpl" >
     <div class="innerCell">
         <div class="leftCell lexam">
@@ -39,6 +41,8 @@
         </div>
     </div>
 	</script>
+    <!-- END OF EXAM TEMPLATE -->
+    <!-- EDIT EXAM SUB-TEMPLATE -->
     <script type="text/html" id="editExamDetails">
         <!-- ko ifnot: vm.evm.selectedExam() == undefined -->
         <div class="examForm">
@@ -83,10 +87,11 @@
         </div>
         <!-- /ko -->
     </script>
-
+    <!-- END OF EDIT EXAM SUB-TEMPLATE -->
+    <!-- GRADE EXAM SUB-TEMPLATE -->
     <script type="text/html" id="gradeExam">
         <!-- ko if: vm.evm.selectedExam() != undefined -->
-        <table id="gradesLect">
+        <table class="grades">
             <tr>
             <th>ID</th>
             <th>Name</th>
@@ -116,6 +121,26 @@
         </table>
         <!-- /ko -->
     </script>
+    <!-- END OF GRADE EXAM SUB-TEMPLATE -->
+    <!-- VIEW EXAM SUB-TEMPLATE (STUDENT) -->
+    <script type="text/html" id="viewExamsStud">
+    <table class="grades">
+        <tr>
+            <th>#</th>
+            <th>Exam Name</th>
+            <th>Grade</th>
+        </tr>
+        <!-- ko if: vm.loggedUser() != undefined -->
+        <tr data-bind="foreach: vm.loggedUser().exams">
+            <td data-bind="text: id"></td>
+            <td data-bind="text: Name"></td>
+            <td data-bind="text: Score"></td>
+        </tr>
+        <!-- /ko -->
+    </table>
+    </script>
+    <!-- END OF VIEW EXAM SUB-TEMPLATE -->
+<!-- END OF TEMPLATES SECTION -->
 	<script type="text/javascript" src="js/lalecture.js"></script>
     <script type="text/javascript" src="js/objects.js"></script>
 
@@ -129,6 +154,7 @@
             <!-- /ko -->
 		</div>
 		<div class="content">
+            <!-- LOGIN -->
 			<div class="login">
 				<form>
 					<h2>Log in to system</h2>
@@ -139,12 +165,15 @@
 					<div id="errorMsg"></div>
 				</form>
 			</div>
+            <!-- END OF LOGIN -->
+            <!-- START OF TEACHER PART -->
 			<div id="adminTabs">
 				<ul>
 					<li><a href="#addStudent" data-bind="click: resetLS()">Add/Edit/Remove Student</a></li>
 					<li><a href="#addExam" data-bind="click: resetLS()">Add/Edit Exam</a></li>
 					<li><a href="#showGrades" data-bind="click: resetLS()">Course Grades</a></li>
 				</ul>
+                <!-- STUDENT ADDITION TAB -->
 					<div id="addStudent">
 						<div class="innerCell">
 							<div class="leftCell">
@@ -177,26 +206,38 @@
 							</div>
 						</div>
 					</div>
+                <!-- END OF STUDENT ADDITION TAB -->
+                <!-- EXAM ADDITION TAB (TEMPLATE RENDERED, SEE TEMPLATE SECTION) -->
 					<div id="addExam" data-bind="template: { name: 'examTpl', data: 'editExamDetails'}">
 					</div>
-
+                <!-- END OF EXAM ADDITION TAB -->
+                <!-- SHOW/GRADE EXAMS TAB (TEMPLATE RENDERED, SEE TEMPLATE SECTION) -->
 					<div id="showGrades" data-bind="template: { name: 'examTpl', data: 'gradeExam' }">
 					</div>
+                <!-- END OF SHOW/GRADE EXAMS TAG -->
 			</div>
+            <!-- END OF TEACHER PART -->
+            <!-- START OF STUDENT PART -->
 			<div id="studentTabs">
                 <ul>
                     <li><a href="#solveExam">Solve Exams</a></li>
                     <li><a href="#viewGrades">View Grades</a></li>
                 </ul>
+                <!-- SOLVE EXAM TAB (TEMPLATE RENDERED, SEE TEMPLATE SECTION) -->
                 <div id="solveExam" data-bind="template: { name: 'examTpl', data: 'editExamDetails' }">
                 </div>
-                <div id="viewGrades"></div>
+                <!-- END OF SOLVE EXAM TAB -->
+                <!-- VIEW GRADES PER EXAM TAB (TEMPLATE RENDERED, SEE TEMPLATE SECTION) -->
+                <div id="viewGrades" data-bind="template: { name: 'examTpl', data: 'viewExamsStud' }"></div>
+                <!-- END OF VIEW GRADES PER EXAM TAB -->
 			</div>
+            <!-- END OF USER PART -->
 		</div>
 		<div class="footer">
 		</div>
+        <!-- MODAL POPUP FOR TEACHER -->
         <div id="studModal">
-        <!-- ko with: vm.svm.selectedStudent -->
+        <!-- ko with: vm.svm.selectedStudentKO -->
             <ol data-bind="foreach: selectedExamAnswers">
                 <li>
                 <h3 data-bind="text: text"></h3>
@@ -207,6 +248,7 @@
             <input type="button" value="Grade" data-bind="click: GradeExam" />
         <!-- /ko -->
         </div>
+        <!-- END OF MODAL POPUP FOR TEACHER -->
 	</div>
 </body>
 </html>

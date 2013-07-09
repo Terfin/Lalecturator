@@ -2,6 +2,11 @@ var examId = 0;
 var ev;
 var elem;
 
+
+/**
+ * User view model, if javascript objects could be abstract, this would be defined as an abstract object.
+ * @constructor
+ */
 var User = function(/*args*/)
 {
 	var self = this;
@@ -10,30 +15,41 @@ var User = function(/*args*/)
 }
 
 
-
-
+/**
+ * Student view model, it inherits from User VM and adds additional... many functionalities and data members.
+ * @constructor
+ */
 var Student = function(/*args*/) {
 	var self = this;
-	self.uid = ko.observable(arguments[0]);
+	self.uid = ko.observable(arguments[0]); // Unique id.
 	self.email = ko.observable(arguments[3]);
-    self.exams = ko.observableArray();
+	self.exams = ko.observableArray(); // An array of exams, however not actual exam objects but thinner literal objects which hold needed information to render the last tab for admin and last tab for student.
+
+    /**
+     * This function is used to sync the thin Exam objects with the actual exam objects to keep data integrity. Happens on mapping and on adding new user or exam.
+     * @param {String[]} exams A list of currently existing exams, those are actual exams and not the thin objects we hold here.
+     */
+	function syncExams(exams) {
+	    for (var i = 0; i < exams.length; i++) {
+	        var exam = self.exams().filter(function (exam) {
+	            return exams[i].id() == exam.id();
+	        });
+            
+	        if (exam.length == 0) {
+                var newExam = exams[i];
+	            self.exams().push({ id: ko.observable(newExam.id()), Name: ko.computed(function () { return newExam.name(); }), Score: ko.observable(null) });
+	        }
+	    }
+	    lscache.set('students', ko.mapping.toJS(vm.svm.Students(), { 'ignore': ['selectedExam', 'selectedExamAnswers'] }));
+	}
+	
     vm.evm.exams.subscribe(function (exams)
     {
-        for (var i=0; i < exams.length; i++)
-        {
-
-            var exam = self.exams().filter(function (exam)
-            {
-                return exams[i].id() == exam.id;
-            });
-            if (exam.length == 0)
-            {
-                self.exams().push({ id: ko.observable(exams[i].id()), Score: ko.observable(null)});
-            }
-        }
-        lscache.set('students', ko.mapping.toJS(vm.svm.Students(), {'ignore' : ['selectedExam', 'selectedExamAnswers']} ));
+        syncExams(exams);
     });
-    self.selectedExam = ko.computed(function ()
+    syncExams(vm.evm.exams());
+
+    self.selectedExam = ko.computed(function () // An ever updating property that represents the currently selected exam (for the student)
     {
 
         if (vm.evm.selectedExam() != undefined && self.exams().length > 0)
@@ -52,13 +68,13 @@ var Student = function(/*args*/) {
     });
 	User.call(this, arguments[1], arguments[2]);
 
-    self.addExam = function (exam) {
-        if (exam instanceof Exam && !(exam in self.exams()))
-        {
-            self.exams.push(exam);
-        }
-    }
-    self.GetExamStatus = function (exam) {
+    /**
+     * Returns the current exam status of the user, i.e. "1/3";
+     * @param {Exam} exam The exam for which to get the status.
+     * @returns {string}
+     * @constructor
+     */
+     self.GetExamStatus = function (exam) {
         if (exam != null) {
         var answeredQuestions = 0;
         for (var i = 0; i < exam.questions().length; i++)
@@ -75,6 +91,10 @@ var Student = function(/*args*/) {
         return answeredQuestions+" / "+exam.questions().length;
         }
     }
+    /**
+     * Grades the answers the user filled for the selected exam.
+     * @constructor
+     */
     self.GradeExam = function () {
         var exam = vm.evm.selectedExam();
         var scorePerQuestion = (100 * 1.0) / exam.questions().length;
@@ -82,7 +102,17 @@ var Student = function(/*args*/) {
         {
             return answer.correct();
         });
-        self.selectedExam().Score(correctAnswers.length * scorePerQuestion);
+        var score = correctAnswers.length * scorePerQuestion;
+        var floored = Math.floor(score);
+        var leftover = ((Math.round(score * 10) / 10) - floored) * 10;
+        if (leftover >= 5)
+        {
+            self.selectedExam().Score(Math.ceil(score));
+        }
+        else
+        {
+            self.selectedExam().Score(floored);
+        }
         lscache.set('students', ko.mapping.toJS(vm.svm.Students(), { 'ignore': ['selectedExam', 'selectedExamAnswers']}));
     }
     self.GetExamMark = function (exam) {
@@ -95,7 +125,7 @@ var Student = function(/*args*/) {
         }
     }
     self.openGradesForStudent = function () {
-        vm.svm.selectedStudent(self);
+        vm.svm.selectedStudentKO(self);
         $('#studModal').dialog("open");
     }
     self.selectedExamAnswers = ko.computed(function () {
@@ -420,7 +450,8 @@ var studentViewModel = function(mainVM) {
 		});
 		return (student.length == 0);
 	}
-	self.selectStudent = function(student, evt) {
+	self.selectStudent = function (student, evt) {
+	    
 		if (self.selectedStudent() != evt.currentTarget)
 		{
 			$(self.selectedStudent()).removeClass("listClick");

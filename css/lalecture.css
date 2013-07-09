@@ -312,11 +312,11 @@ span.welcome, #logoutBtn {
     width: 200px;
 }
 
-#gradesLect {
+.grades {
     width: inherit;
 }
 
-#gradesLect tr td {
+.grades tr td {
     text-align: center;
 }
 

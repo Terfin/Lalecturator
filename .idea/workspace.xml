@@ -4,12 +4,12 @@
     <list default="true" id="a1148958-941d-4448-b160-779bf20b214d" name="Default" comment="" />
     <ignored path="Lalecturator.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373005771733" ignored="false" />
+    <file path="/Dummy.txt" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373224439637" ignored="false" />
     <file path="/fragment.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1368040185542" ignored="false" />
     <file path="/lalecture.css" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373097783045" ignored="false" />
-    <file path="/objects.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373130944957" ignored="false" />
-    <file path="/index.html" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373130386237" ignored="false" />
-    <file path="/lalecture.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373101448162" ignored="false" />
+    <file path="/objects.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373305555178" ignored="false" />
+    <file path="/index.html" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373302472461" ignored="false" />
+    <file path="/lalecture.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1373302203421" ignored="false" />
     <file path="/a.html" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1369925402270" ignored="false" />
     <file path="/a.js" changelist="a1148958-941d-4448-b160-779bf20b214d" time="1369925490308" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -34,16 +34,16 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="105" column="58" selection-start="5153" selection-end="5153" vertical-scroll-proportion="-10.490196">
+            <state line="77" column="7" selection-start="3925" selection-end="3925" vertical-scroll-proportion="-12.705882">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="objects.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="objects.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/objects.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="43" selection-start="464" selection-end="464" vertical-scroll-proportion="0.46">
+            <state line="182" column="39" selection-start="6367" selection-end="6367" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -52,16 +52,16 @@
       <file leaf-file-name="lalecture.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/lalecture.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="28" selection-start="527" selection-end="527" vertical-scroll-proportion="-12.92">
+            <state line="170" column="108" selection-start="5608" selection-end="5608" vertical-scroll-proportion="-29.24">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lalecture.css" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="lalecture.css" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/css/lalecture.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="301" column="10" selection-start="4212" selection-end="4212" vertical-scroll-proportion="0.0">
+            <state line="301" column="10" selection-start="4212" selection-end="4212" vertical-scroll-proportion="0.33942857">
               <folding />
             </state>
           </provider>
@@ -86,8 +86,8 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/css/lalecture.css" />
-        <option value="$PROJECT_DIR$/js/lalecture.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/lalecture.js" />
         <option value="$PROJECT_DIR$/js/objects.js" />
       </list>
     </option>
@@ -194,13 +194,13 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="editor.preferences.smartKeys" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="editor.preferences.appearance" />
-    <property name="restartRequiresConfirmation" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/js/jquery-ui-1.10.2.custom.js" />
+    <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager" selected="JavaScript Debug.Unnamed">
     <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
@@ -291,8 +291,8 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32963374" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32963374" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17343174" sideWeight="0.61487234" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38419914" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17343174" sideWeight="0.61598223" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38401777" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32408434" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -445,30 +445,30 @@
         <state line="43" column="0" selection-start="19913" selection-end="19927" vertical-scroll-proportion="0.049418606" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/lalecture.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="28" selection-start="527" selection-end="527" vertical-scroll-proportion="-12.92">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/lalecture.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="301" column="10" selection-start="4212" selection-end="4212" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="105" column="58" selection-start="5153" selection-end="5153" vertical-scroll-proportion="-10.490196">
+        <state line="77" column="7" selection-start="3925" selection-end="3925" vertical-scroll-proportion="-12.705882">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/objects.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="43" selection-start="464" selection-end="464" vertical-scroll-proportion="0.46">
+        <state line="182" column="39" selection-start="6367" selection-end="6367" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lalecture.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="170" column="108" selection-start="5608" selection-end="5608" vertical-scroll-proportion="-29.24">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/lalecture.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="301" column="10" selection-start="4212" selection-end="4212" vertical-scroll-proportion="0.33942857">
           <folding />
         </state>
       </provider>
